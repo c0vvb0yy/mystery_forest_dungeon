@@ -46,13 +46,9 @@ static func _add_connection(rng: RandomNumberGenerator, data: Dictionary, room1:
 	var room_center1 := (room1.position + room1.end) / 2
 	var room_center2 := (room2.position + room2.end) / 2
 	if rng.randi_range(0, 1) == 0:
-		#_add_corridor(data, room1.end.x, room2.end.x, room_center1.y, Vector2i.AXIS_X)
-		#_add_corridor(data, room1.end.y, room2.end.y, room_center2.x, Vector2i.AXIS_Y)
 		_add_corridor(data, room_center1.x, room_center2.x, room_center1.y, Vector2i.AXIS_X)
 		_add_corridor(data, room_center1.y, room_center2.y, room_center2.x, Vector2i.AXIS_Y)
 	else:
-		#_add_corridor(data, room1.end.x, room2.end.y, room_center1.x, Vector2i.AXIS_Y)
-		#_add_corridor(data, room1.end.y, room2.end.x, room_center1.y, Vector2i.AXIS_X)
 		_add_corridor(data, room_center1.y, room_center2.y, room_center1.x, Vector2i.AXIS_Y)
 		_add_corridor(data, room_center1.x, room_center2.x, room_center2.y, Vector2i.AXIS_X)
 
