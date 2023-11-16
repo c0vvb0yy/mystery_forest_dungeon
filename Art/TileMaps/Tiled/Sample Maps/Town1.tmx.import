@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://b7cnvpa4ca5f5"
+path="res://.godot/imported/Town1.tmx-e552bc8516f86919ca58f89333afc816.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Town1.tmx"
+dest_files=["res://.godot/imported/Town1.tmx-e552bc8516f86919ca58f89333afc816.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""

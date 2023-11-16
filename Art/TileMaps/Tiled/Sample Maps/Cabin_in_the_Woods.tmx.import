@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://cci0jvpr0hon0"
+path="res://.godot/imported/Cabin_in_the_Woods.tmx-747e1dd398c9d2b10b14616ea569a8ef.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Cabin_in_the_Woods.tmx"
+dest_files=["res://.godot/imported/Cabin_in_the_Woods.tmx-747e1dd398c9d2b10b14616ea569a8ef.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""

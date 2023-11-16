@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://btrgta1bo471w"
+path="res://.godot/imported/Cave1.tmx-3064b6afce5fabb55236324873f14521.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Cave1.tmx"
+dest_files=["res://.godot/imported/Cave1.tmx-3064b6afce5fabb55236324873f14521.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""

@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3xta1tjxo8ei"]
+
+[ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_hp8wf"]
+[ext_resource type="Texture2D" uid="uid://st6nu1naxs80" path="res://Entities/Player/porcupine.png" id="2_53hag"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_hp8wf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_53hag")

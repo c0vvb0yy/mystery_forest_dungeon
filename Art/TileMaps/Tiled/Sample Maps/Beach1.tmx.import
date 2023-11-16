@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://6wyjjlvbnbgc"
+path="res://.godot/imported/Beach1.tmx-438d9d8d5c53efb0201818e764346989.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Beach1.tmx"
+dest_files=["res://.godot/imported/Beach1.tmx-438d9d8d5c53efb0201818e764346989.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""

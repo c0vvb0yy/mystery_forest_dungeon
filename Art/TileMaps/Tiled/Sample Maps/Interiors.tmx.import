@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://jgb37k1x2tma"
+path="res://.godot/imported/Interiors.tmx-f3782c2efda05a5d423304f3d89c0ada.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Interiors.tmx"
+dest_files=["res://.godot/imported/Interiors.tmx-f3782c2efda05a5d423304f3d89c0ada.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""

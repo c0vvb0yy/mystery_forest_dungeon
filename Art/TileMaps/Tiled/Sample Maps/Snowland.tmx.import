@@ -1,0 +1,21 @@
+[remap]
+
+importer="YATI"
+type="PackedScene"
+uid="uid://dampgr38ypuao"
+path="res://.godot/imported/Snowland.tmx-4ed5b17ffc9e685973e7bc186be6f5a7.tscn"
+
+[deps]
+
+source_file="res://Art/TileMaps/Tiled/Sample Maps/Snowland.tmx"
+dest_files=["res://.godot/imported/Snowland.tmx-4ed5b17ffc9e685973e7bc186be6f5a7.tscn"]
+
+[params]
+
+use_tilemap_layers=false
+use_default_filter=false
+add_class_as_metadata=false
+map_wangset_to_terrain=false
+tiled_project_file=""
+post_processor=""
+save_tileset_to=""
