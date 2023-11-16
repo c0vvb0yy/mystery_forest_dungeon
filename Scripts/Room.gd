@@ -20,6 +20,7 @@ func _iter_next(_arg) -> bool:
 	return _iter_is_running()
 
 func _iter_get(_arg) -> Vector2:
+	@warning_ignore("narrowing_conversion")
 	var offset := Util.index_to_xy(_rect.size.x, _iter_index)
 	return _rect.position + offset
 
@@ -42,5 +43,5 @@ func get_center() -> Vector2:
 func _iter_is_running() -> bool:
 	return _iter_index < _rect_area
 
-func _no_op(val) -> void:
+func _no_op(_val) -> void:
 	pass

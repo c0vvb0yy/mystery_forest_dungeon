@@ -1,5 +1,5 @@
 extends Node2D
-
+##Script to immanentize the proceduraly the dungeon layout into the game
 
 @export var level_size := Vector2(100, 80)
 @export var rooms_size := Vector2(10, 14)
@@ -32,13 +32,13 @@ func _generate() -> void:
 		map.append(Vector2i(vector))
 	for vector in map:
 		level.set_cell(0, vector, 0, Vector2i.ZERO, 1)
-	level_dictionary = check_room_corridors(map, level_dictionary)
+	level_dictionary = check_room_corridors(level_dictionary)
 	level.set_cells_terrain_connect(0, map, 0, 0)
 	MapData.init_map(level_dictionary)
 
 ## If there were corridors built that border on rooms, we should change their tpyes to room in the data
 ## since that is what they appear as
-func check_room_corridors(map: Array[Vector2i], data: Dictionary):
+func check_room_corridors(data: Dictionary):
 	for cell in map:
 		if data[cell].get_type() == MapData.CellType.corridor:
 			var room_neigbors := 0

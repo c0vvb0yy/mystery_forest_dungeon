@@ -1,5 +1,11 @@
 class_name Cell
+##Cell class that holds all important information about the cells making up a dungeon
+##
+## Cells know their own positions(coords) in the tilemap, 
+## what type(room or corridor) they are,
+## and what is on them (content)
 
+##Position in the tile map, aswell as the key in the dictionary they're assigned to 
 var coords : Vector2i
 ##Denotes if the cell is part of a room or a corridor
 ##
