@@ -43,8 +43,8 @@ static func _add_room(data: Dictionary, rooms: Array, room: Room) -> void:
 
 @warning_ignore("narrowing_conversion")
 static func _add_connection(rng: RandomNumberGenerator, data: Dictionary, room1: Room, room2: Room) -> void:
-	var room_center1 := (room1.position + room1.end) / 2
-	var room_center2 := (room2.position + room2.end) / 2
+	var room_center1 := room1.get_center()
+	var room_center2 := room2.get_center()
 	if rng.randi_range(0, 1) == 0:
 		_add_corridor(data, room_center1.x, room_center2.x, room_center1.y, Vector2i.AXIS_X)
 		_add_corridor(data, room_center1.y, room_center2.y, room_center2.x, Vector2i.AXIS_Y)

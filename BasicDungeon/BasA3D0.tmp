@@ -745,14 +745,7 @@ position_smoothing_enabled = true
 
 [node name="DebugCanvas" type="CanvasLayer" parent="."]
 
-[node name="Label" type="RichTextLabel" parent="DebugCanvas"]
-z_index = 5
-offset_left = 2.0
-offset_top = 1.0
-offset_right = 42.0
-offset_bottom = 27.0
-text = "(0,0)"
-fit_content = true
-scroll_active = false
-autowrap_mode = 0
+[node name="Label" type="Label" parent="DebugCanvas"]
+offset_right = 40.0
+offset_bottom = 23.0
 script = ExtResource("6_nac4t")

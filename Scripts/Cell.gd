@@ -14,20 +14,37 @@ var coords : Vector2i
 var _type : int
 var _content : int
 
+var has_player := false
+
 func _init(coord: Vector2i, type: MapData.CellType, content:MapData.CellContent):
 	coords = coord
 	_type = type
 	_content = content
 
-func get_type():
-	return _type
+func get_type(pretty_string:=false):
+	if !pretty_string:
+		return _type
+	match _type:
+		MapData.CellType.corridor:
+			return "Corridor"
+		MapData.CellType.room:
+			return "Room"
 
-func get_content():
-	return _content
+func get_content(pretty_string:=false):
+	if !pretty_string:
+		return _content
+	match _content:
+		MapData.CellContent.enemy:
+			return "enemy"
+		MapData.CellContent.free:
+			return "free"
+		MapData.CellContent.item:
+			return "item"
+
+func get_player(player_is_on):
+	has_player = player_is_on
 
 ## sets the type of cell (room or corridor)
-##
-## Are you really sure you want to be using this?
 func set_type(type: MapData.CellType):
 	_type = type
 
@@ -35,3 +52,6 @@ func set_type(type: MapData.CellType):
 ##There will probably need to be way more logic once it comes to items
 func set_content(content: MapData.CellContent):
 	_content = content
+
+func _print():
+	print(str(coords))

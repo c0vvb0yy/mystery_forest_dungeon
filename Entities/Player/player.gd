@@ -1,5 +1,7 @@
 extends Node2D
 
+var player_turn
+
 var tile_size := MapData.CELLSIZE
 
 var current_coords : Vector2i
@@ -14,6 +16,7 @@ var direction := Vector2i.ZERO
 var debug_run_counter = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	player_turn = MapData.turn
 	pass # Replace with function body.
 
 func spawn(level:TileMap):
@@ -21,6 +24,7 @@ func spawn(level:TileMap):
 	if(MapData.map[point_on_map].get_type() == MapData.CellType.room):
 		position = level.map_to_local(point_on_map)
 		current_coords = point_on_map
+		MapData.map[point_on_map].get_player(true)
 		return
 	else:
 		spawn(level)
@@ -82,9 +86,13 @@ func move():
 		var tween = create_tween()
 		tween.finished.connect(_on_moving_tween_finished)
 		tween.tween_property(self, "position",position + Vector2(direction) * tile_size, 1.0/current_speed).set_trans(Tween.TRANS_SINE)
+		#player_turn = MapData.turn
+		player_turn.emit()
 
 func _on_moving_tween_finished():
 	is_moving = false
+	if current_speed == animation_run_speed:
+		check_for_poi()
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords) != null):
@@ -95,9 +103,29 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].set_content(MapData.CellContent.free)
-	MapData.map[target_coords].set_content(MapData.CellContent.player)
+	MapData.map[current_coords].get_player(false)
+	#set_content(MapData.CellContent.free)
+	MapData.map[target_coords].get_player(true)
+	#.set_content(MapData.CellContent.player)
 	current_coords = target_coords
+
+##when we're running we want to stop the player at certain points
+##
+## these points include: intersections, near items, near stairways, near enemies
+func check_for_poi():
+	debug_run_counter += 1
+	print(debug_run_counter)
+	if(debug_run_counter >= 6):
+		current_speed = animation_walk_speed
+		debug_run_counter = 0
+	#we look at the cell we're on
+	#get its neigbors in the tilemap
+	#if currently in a corridor
+		#if it has more than 2 neighbors then it's a crossing or a room(beginning) and we stop the player
+	#if we're in a room
+		#the moment a corridor entrance/item/stairway so,, a POI LOL is in our nieghbors we stop
+	
+	pass
 
 func _process(_delta):
 	pass
