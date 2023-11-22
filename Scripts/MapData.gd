@@ -1,6 +1,7 @@
 extends Node
 
 signal turn
+signal level_start
 
 ## Denotes if the cell is part of a room or a corridor
 enum CellType{
@@ -31,6 +32,8 @@ var tile_map: TileMap
 ## size in pixels of the tiles in the tilemap 
 const CELLSIZE := 64
 
+## Thought it's 
+var player_coords : Vector2i
 
 ## Creates a dictionary with the keys being the coordinates and the values denoting whether it is
 ## a room or a corridor
@@ -39,12 +42,10 @@ func init_map(level:Dictionary, tiles:TileMap):
 	for coord in level.keys():
 		var map_coord = Vector2i(coord)
 		map[map_coord] = level[coord]
+	emit_signal("level_start")
 
 func get_player_coords() -> Vector2i:
-	for cell in map:
-		if(map[cell].has_player):
-			return cell
-	return Vector2i(-99,-99)
+	return player_coords
 
 ##returns a random coordinate of the entire map
 func get_random_coord() -> Vector2i:

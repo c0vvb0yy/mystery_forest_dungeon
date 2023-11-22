@@ -8,7 +8,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	
 	self.position = lerp(self.position, target.position, 0.999)
 	#self.position.clamp(target.position - Vector2(50,50), target.position + Vector2(50,50))

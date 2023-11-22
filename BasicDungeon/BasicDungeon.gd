@@ -6,18 +6,23 @@ extends Node2D
 @export var rooms_max := 15
 
 @onready var level: TileMap = $Level
-@onready var screen_map: TileMap = $ScreenMap
-@onready var player: Node2D = $Player
+@onready var screen_map: TileMap = $MapLayer/SubViewportContainer/SubViewport/ScreenMap
+@onready var screen_cam: Camera2D = $MapLayer/SubViewportContainer/SubViewport/MapCam
 
 var map: Array[Vector2i]
 
 func _ready() -> void:
-	_generate()
-	player.spawn(level)
+	generate()
+	setup_map_cam()
 
+func setup_map_cam() -> void:
+	screen_cam.position = to_global(level.map_to_local(level_size / 2))
+	var z = max(level_size.x, level_size.y) / 1000
+	screen_cam.zoom = Vector2(z, z)
 
-func _generate() -> void:
+func generate() -> void:
 	level.clear()
+	screen_map.clear()
 	var level_dictionary = Generator.generate(level_size, rooms_size, rooms_max)
 	for vector in level_dictionary.keys():
 		map.append(Vector2i(vector))
@@ -50,6 +55,7 @@ func generate_staircase():
 	var stair_location = MapData.get_random_coord_of_type(MapData.CellType.room)
 	print(stair_location)
 	level.set_cell(0, stair_location, 0, MapData.STAIRCASE_COORDS)
+	screen_map.set_cell(0, stair_location, 0, Vector2i(0, 3))
 	var stair_cell : Cell
 	stair_cell = MapData.map[stair_location]
 	stair_cell.set_content(MapData.CellContent.stair)

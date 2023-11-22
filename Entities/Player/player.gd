@@ -14,13 +14,15 @@ var direction := Vector2i.ZERO
 var stopped := false
 
 func _ready():
+	MapData.level_start.connect(spawn)
 	player_turn = MapData.turn
 
-func spawn(level:TileMap):
+func spawn():
 	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room)
-	position = level.map_to_local(spawn_location)
+	position = MapData.tile_map.map_to_local(spawn_location)
 	current_coords = spawn_location
 	MapData.map[spawn_location].gain_player(true)
+	MapData.player_coords = spawn_location
 	
 
 func _unhandled_input(event):
@@ -99,6 +101,7 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 func update_cells(target_coords:Vector2i):
 	MapData.map[current_coords].gain_player(false)
 	MapData.map[target_coords].gain_player(true)
+	MapData.player_coords = target_coords
 	current_coords = target_coords
 
 ##when we're running we want to stop the player at certain points
