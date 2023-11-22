@@ -40,11 +40,13 @@ func get_content(pretty_string:=false):
 			return "free"
 		MapData.CellContent.item:
 			return "item"
+		MapData.CellContent.stair:
+			return "staircase"
 
-func get_player(player_is_on):
+func gain_player(player_is_on):
 	has_player = player_is_on
 
-## sets the type of cell (room or corridor)
+## sets the type of cell
 func set_type(type: MapData.CellType):
 	_type = type
 

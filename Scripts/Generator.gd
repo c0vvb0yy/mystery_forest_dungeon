@@ -15,6 +15,7 @@ static func generate(level_size:Vector2i, rooms_size: Vector2i, rooms_max: int) 
 		if rooms.size() > 1:
 			var room_previous: Room = rooms[-2]
 			_add_connection(rng, data, room_previous, room)
+	
 	return data
 
 static func _get_random_room(level_size: Vector2i, rooms_size: Vector2i, rng: RandomNumberGenerator) -> Room:
