@@ -16,10 +16,14 @@ var _content : int
 
 var has_player := false
 
-func _init(coord: Vector2i, type: MapData.CellType, content:MapData.CellContent):
+##All cells of the same room or corridor will be given the same group id
+var group_id : int
+
+func _init(coord: Vector2i, type: MapData.CellType, content:MapData.CellContent, id : int):
 	coords = coord
 	_type = type
 	_content = content
+	group_id = id
 
 func get_type(pretty_string:=false):
 	if !pretty_string:
@@ -42,6 +46,9 @@ func get_content(pretty_string:=false):
 			return "item"
 		MapData.CellContent.stair:
 			return "staircase"
+
+func get_id():
+	return group_id
 
 func gain_player(player_is_on):
 	has_player = player_is_on

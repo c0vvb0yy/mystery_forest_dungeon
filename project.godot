@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MapData="*res://Scripts/MapData.gd"
+DungeonManager="*res://Scripts/DungeonManager.gd"
 
 [editor_plugins]
 

@@ -32,8 +32,10 @@ var tile_map: TileMap
 ## size in pixels of the tiles in the tilemap 
 const CELLSIZE := 64
 
-## Thought it's 
+## Thought it's handy to have instant access to the player coordinates
 var player_coords : Vector2i
+
+var stair_coords : Vector2i
 
 ## Creates a dictionary with the keys being the coordinates and the values denoting whether it is
 ## a room or a corridor
@@ -42,7 +44,9 @@ func init_map(level:Dictionary, tiles:TileMap):
 	for coord in level.keys():
 		var map_coord = Vector2i(coord)
 		map[map_coord] = level[coord]
-	emit_signal("level_start")
+
+func clear_map():
+	map.clear()
 
 func get_player_coords() -> Vector2i:
 	return player_coords
@@ -63,5 +67,12 @@ func get_all_coordinates_of_type(type : CellType) -> Array[Vector2i]:
 	var coords : Array[Vector2i]
 	for coord in map.keys():
 		if map[coord].get_type() == type:
+			coords.append(coord)
+	return coords
+
+func get_all_coordinates_of_group(id: int, type: CellType) -> Array[Vector2i]:
+	var coords : Array[Vector2i]
+	for coord in map.keys():
+		if(map[coord].get_id() == id && map[coord].get_type() == type):
 			coords.append(coord)
 	return coords

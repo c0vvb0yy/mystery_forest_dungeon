@@ -91,6 +91,7 @@ func _on_moving_tween_finished():
 	is_moving = false
 	if current_speed == animation_run_speed:
 		check_for_poi()
+	check_ground()
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords)):
@@ -139,6 +140,14 @@ func check_for_poi():
 				stopped = true
 				return
 	
+
+func check_ground():
+	var cell : Cell
+	cell = MapData.map[current_coords]
+	if cell.get_content() == MapData.CellContent.free:
+		return
+	if cell.get_content() == MapData.CellContent.stair:
+		DungeonManager.create_next_level()
 
 func any_movement_captured(event:InputEvent) -> bool:
 	return event.is_action_pressed("Down") || event.is_action_pressed("Left") || event.is_action_pressed("Right") || event.is_action_pressed("Up")

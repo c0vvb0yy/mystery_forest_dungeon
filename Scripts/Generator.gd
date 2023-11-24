@@ -6,6 +6,7 @@ static func generate(level_size:Vector2i, rooms_size: Vector2i, rooms_max: int) 
 	
 	var data := {}
 	var rooms := []
+	var corridors := []
 	for r in range(rooms_max):
 		var room := _get_random_room(level_size, rooms_size, rng)
 		if _intersects(rooms, room):
@@ -14,7 +15,7 @@ static func generate(level_size:Vector2i, rooms_size: Vector2i, rooms_max: int) 
 		_add_room(data, rooms, room)
 		if rooms.size() > 1:
 			var room_previous: Room = rooms[-2]
-			_add_connection(rng, data, room_previous, room)
+			_add_connection(rng, data, room_previous, room, corridors)
 	
 	return data
 
@@ -38,30 +39,45 @@ static func _add_room(data: Dictionary, rooms: Array, room: Room) -> void:
 	rooms.push_back(room)
 	for point in room:
 		point = Vector2i(point)
-		data[Vector2i(point)] = Cell.new(point,  MapData.CellType.room, MapData.CellContent.free)
+		data[Vector2i(point)] = Cell.new(point,  MapData.CellType.room, MapData.CellContent.free, rooms.size()-1)
 		
 
 
 @warning_ignore("narrowing_conversion")
-static func _add_connection(rng: RandomNumberGenerator, data: Dictionary, room1: Room, room2: Room) -> void:
+static func _add_connection(rng: RandomNumberGenerator, data: Dictionary, room1: Room, room2: Room, corridors: Array) -> void:
 	var room_center1 := room1.get_center()
 	var room_center2 := room2.get_center()
 	if rng.randi_range(0, 1) == 0:
-		_add_corridor(data, room_center1.x, room_center2.x, room_center1.y, Vector2i.AXIS_X)
-		_add_corridor(data, room_center1.y, room_center2.y, room_center2.x, Vector2i.AXIS_Y)
+		_add_corridor(data, room_center1.x, room_center2.x, room_center1.y, Vector2i.AXIS_X, corridors)
+		_add_corridor(data, room_center1.y, room_center2.y, room_center2.x, Vector2i.AXIS_Y, corridors)
 	else:
-		_add_corridor(data, room_center1.y, room_center2.y, room_center1.x, Vector2i.AXIS_Y)
-		_add_corridor(data, room_center1.x, room_center2.x, room_center2.y, Vector2i.AXIS_X)
+		_add_corridor(data, room_center1.y, room_center2.y, room_center1.x, Vector2i.AXIS_Y, corridors)
+		_add_corridor(data, room_center1.x, room_center2.x, room_center2.y, Vector2i.AXIS_X, corridors)
 
 
-static func _add_corridor(data: Dictionary, start: int, end: int, constant: int, axis: int) -> void:
+static func _add_corridor(data: Dictionary, start: int, end: int, constant: int, axis: int, corridors: Array) -> void:
+	var corridor :=[]
 	for t in range(min(start, end), max(start, end) + 1):
 		var point := Vector2i.ZERO
 		match axis:
-			Vector2i.AXIS_X: point = Vector2i(t, constant)
-			Vector2i.AXIS_Y: point = Vector2i(constant, t)
+			Vector2i.AXIS_X: corridor.append(Vector2i(t, constant))
+			Vector2i.AXIS_Y: corridor.append(Vector2i(constant, t))
+	corridors.append(corridor)
+	for point in corridors[-1]:
 		if(data.get(point)):
 			if(data[point].get_type() != MapData.CellType.room):
-				data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free)
+				data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free, corridors.size()-1)
 		else:
-			data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free)
+			data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free, corridors.size()-1)
+#static func _add_corridor(data: Dictionary, start: int, end: int, constant: int, axis: int) -> void:
+#	for t in range(min(start, end), max(start, end) + 1):
+#		var point := Vector2i.ZERO
+#		match axis:
+#			Vector2i.AXIS_X: point = Vector2i(t, constant)
+#			Vector2i.AXIS_Y: point = Vector2i(constant, t)
+#
+#		if(data.get(point)):
+#			if(data[point].get_type() != MapData.CellType.room):
+#				data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free)
+#		else:
+#			data[point] = Cell.new(point,  MapData.CellType.corridor, MapData.CellContent.free)

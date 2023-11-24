@@ -23,16 +23,17 @@ func setup_map_cam() -> void:
 func generate() -> void:
 	level.clear()
 	screen_map.clear()
-	var level_dictionary = Generator.generate(level_size, rooms_size, rooms_max)
+	var level_dictionary = Generator.generate(level_size, rooms_size, randi_range(5, rooms_max))
 	for vector in level_dictionary.keys():
 		map.append(Vector2i(vector))
 		level.set_cell(0, vector, 0, Vector2i.ZERO, 1)
-		screen_map.set_cell(0, vector, 0, Vector2i.ZERO, 1)
+		#screen_map.set_cell(0, vector, 0, Vector2i.ZERO, 1)
 	level.set_cells_terrain_connect(0, map, 0, 0)
-	screen_map.set_cells_terrain_connect(0, map, 0, 0)
+	#screen_map.set_cells_terrain_connect(0, map, 0, 0)
 	MapData.init_map(level_dictionary, level)
 	correct_corridors_to_be_rooms()
 	generate_staircase()
+	MapData.emit_signal("level_start")
 
 ## If there were corridors built that border on rooms, we should change their tpyes to room in the data
 ## since that is what they appear as
@@ -53,10 +54,10 @@ func correct_corridors_to_be_rooms():
 
 func generate_staircase():
 	var stair_location = MapData.get_random_coord_of_type(MapData.CellType.room)
-	print(stair_location)
 	level.set_cell(0, stair_location, 0, MapData.STAIRCASE_COORDS)
-	screen_map.set_cell(0, stair_location, 0, Vector2i(0, 3))
+	#screen_map.set_cell(0, stair_location, 0, Vector2i(0, 3))
 	var stair_cell : Cell
 	stair_cell = MapData.map[stair_location]
 	stair_cell.set_content(MapData.CellContent.stair)
 	MapData.map[stair_location] = stair_cell
+	MapData.stair_coords = stair_location

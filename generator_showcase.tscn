@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://vn20b4d6mo67"]
+
+[ext_resource type="Script" path="res://GeneratorShowcase.gd" id="1_o4k2y"]
+[ext_resource type="PackedScene" uid="uid://c7fc1kfeyx2a1" path="res://tilemap_ressource.tscn" id="2_mj73e"]
+
+[node name="GeneratorShowcase" type="Node2D"]
+script = ExtResource("1_o4k2y")
+
+[node name="Level" parent="." instance=ExtResource("2_mj73e")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
