@@ -76,3 +76,6 @@ func get_all_coordinates_of_group(id: int, type: CellType) -> Array[Vector2i]:
 		if(map[coord].get_id() == id && map[coord].get_type() == type):
 			coords.append(coord)
 	return coords
+
+func get_player_cell() -> Cell:
+	return map[player_coords]

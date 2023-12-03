@@ -2,9 +2,9 @@ extends TileMap
 
 @export var view_range := 2
 var cells : Array[Vector2i]
-
+var visited_rooms : Array[int]
 var in_room := true
-
+var found_stair := false
 var stair_room_id : int
 
 func _ready():
@@ -13,51 +13,67 @@ func _ready():
 	
 	pass # Replace with function body.
 
+func clear_data():
+	cells.clear()
+	visited_rooms.clear()
+	found_stair = false
+
 func initialize_map():
+	clear_data()
 	var starting_cell = MapData.map[MapData.player_coords]
 	var cell_group_id = starting_cell.get_id()
 	var cell_type = starting_cell.get_type()
-	draw_room(cell_group_id, cell_type)
 	stair_room_id = MapData.map[MapData.stair_coords].get_id()
+	draw_room(cell_group_id, cell_type)
+	set_cells_terrain_connect(0, cells, 0, 0)
+	if found_stair:
+		set_cell(0, MapData.stair_coords, 0, Vector2i(0, 3))
 	pass
 
 func update_map():
-	var player_pos = MapData.player_coords
-	var cell = MapData.map[player_pos]
+	var player_pos := MapData.player_coords
+	var cell := MapData.get_player_cell()
 	if cell.get_type() == MapData.CellType.room:
-		if !in_room:
+		if !in_room && !visited_rooms.has(cell.get_id()):
+			visited_rooms.append(cell.get_id())
 			draw_room(cell.get_id(), cell.get_type())
-			print("Fol")
 			in_room = true
 	else:
 		draw_corridor(player_pos)
 		in_room = false
 	set_cells_terrain_connect(0, cells, 0, 0)
+	if found_stair:
+		set_cell(0, MapData.stair_coords, 0, Vector2i(0, 3))
 	pass
 
 func draw_room(cell_group_id: int , cell_type: MapData.CellType):
 	cells = MapData.get_all_coordinates_of_group(cell_group_id, cell_type)
-	#cells.append_array(MapData.get_all_coordinates_of_group(cell_group_id, cell_type))
 	for vector in cells:
 		set_cell(0, vector, 0, Vector2i.ZERO, 1)
 	check_for_room_exits()
-	set_cells_terrain_connect(0, cells, 0, 0)
+	#set_cells_terrain_connect(0, cells, 0, 0)
 	if cell_group_id == stair_room_id:
+		found_stair = true
 		set_cell(0, MapData.stair_coords, 0, Vector2i(0, 3))
 
 func draw_corridor(player_pos):
-	for x in range(player_pos.x - view_range, player_pos.x + view_range):
-		for y in range(player_pos.y - view_range, player_pos.y + view_range):
+	for x in range(player_pos.x - view_range, player_pos.x + view_range+1):
+		for y in range(player_pos.y - view_range, player_pos.y + view_range+1):
 			if MapData.map.get(Vector2i(x,y)):
 				cells.append(Vector2i(x,y))
 				set_cell(0, Vector2i(x,y), 0, Vector2i.ZERO, 1)
+	#set_cells_terrain_connect(0, cells, 0, 0)
 
 func check_for_room_exits():
 	var border = get_room_border()
 	for cell in border:
-		print(cell)
+		for x in range(cell.x - 1, cell.x + 2):
+			for y in range(cell.y - 1, cell.y +2):
+				if MapData.map.get(Vector2i(x,y)):
+					cells.append(Vector2i(x,y))
+					set_cell(0, Vector2i(x,y), 0, Vector2i.ZERO, 1)
 	
-
+##Retruns array with the cell coordinates that mark the rooms border
 func get_room_border() -> Array[Vector2i]:
 	var border : Array[Vector2i]
 	border.append(cells[0])
