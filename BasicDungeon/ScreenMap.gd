@@ -60,8 +60,8 @@ func draw_room(cell_group_id: int):
 	drawn_cells.append_array(cells)
 	for vector in cells:
 		set_cell(0, vector, 0, Vector2i.ZERO, 1)
-	check_for_room_exits()
 	set_cells_terrain_connect(0, cells, 0, 0)
+	check_for_room_exits()
 	if cell_group_id == stair_room_id:
 		found_stair = true
 		set_cell(0, MapData.stair_coords, 0, Vector2i(0, 3))
@@ -196,9 +196,23 @@ func draw_open_cell(x:int,y:int):
 	cells.append(Vector2i(x,y))
 	drawn_cells.append(Vector2i(x,y))
 
+
+func check_for_room_exits():
+	var border = get_room_border()
+	for cell in border:
+		for x in range(cell.x - 1, cell.x + 2):
+			for y in range(cell.y - 1, cell.y +2):
+				if x == cell.x && y == cell.y:
+					continue
+				var neighbor_cell = MapData.map.get(Vector2i(x,y))
+				if  neighbor_cell:
+					if neighbor_cell.get_type() == MapData.CellType.room && !visited_rooms.has(neighbor_cell.get_id()):
+						visited_rooms.append(MapData.map.get(Vector2i(x,y)).get_id())
+						draw_room(neighbor_cell.get_id())
+					draw_open_cell(x,y)
 ##returns an array that holds the directions in which the neighboring cells lie
 ##
-## the content 
+## content is given by Alignment enum
 func check_for_neighbors(cell:Vector2i) -> Array[int]:
 	var neighbors : Array[int] = []
 	#we first look at the cardinal direction neighbors
@@ -225,22 +239,6 @@ func check_for_neighbors(cell:Vector2i) -> Array[int]:
 			neighbors.append(Alignment.left_up)
 	
 	return neighbors
-
-func check_for_room_exits():
-	var border = get_room_border()
-	for cell in border:
-		for x in range(cell.x - 1, cell.x + 2):
-			for y in range(cell.y - 1, cell.y +2):
-				if x == cell.x && y == cell.y:
-					continue
-				var neighbor_cell = MapData.map.get(Vector2i(x,y))
-				if  neighbor_cell:
-					if neighbor_cell.get_type() == MapData.CellType.room && !visited_rooms.has(neighbor_cell.get_id()):
-						visited_rooms.append(MapData.map.get(Vector2i(x,y)).get_id())
-						draw_room(neighbor_cell.get_id())
-					draw_open_cell(x,y)
-					#cells.append(Vector2i(x,y))
-					#set_cell(0, Vector2i(x,y), 0, Vector2i.ZERO, 1)
 	
 ##Retruns array with the cellmap coordinates that mark the rooms border
 func get_room_border() -> Array[Vector2i]:
