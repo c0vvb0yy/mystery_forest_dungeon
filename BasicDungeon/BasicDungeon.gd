@@ -22,7 +22,6 @@ func setup_map_cam() -> void:
 
 func generate() -> void:
 	level.clear()
-	screen_map.clear()
 	var level_dictionary = Generator.generate(level_size, rooms_size, randi_range(5, rooms_max))
 	for vector in level_dictionary.keys():
 		map.append(Vector2i(vector))
