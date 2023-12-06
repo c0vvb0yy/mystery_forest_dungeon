@@ -22,10 +22,10 @@ func update(rect: Rect2) -> void:
 
 	var unit := FACTOR * rect.size
 	var order := [
-		rect.grow_individual(-unit.x, 0, -unit.x, unit.y - rect.size.y),
-		rect.grow_individual(unit.x - rect.size.x, -unit.y, 0, -unit.y),
-		rect.grow_individual(-unit.x, unit.y - rect.size.y, -unit.x, 0),
-		rect.grow_individual(0, -unit.y, unit.x - rect.size.x, -unit.y)
+		rect.grow_individual(-unit.x, rng.randi_range(5,25), -unit.x, unit.y - rect.size.y),
+		rect.grow_individual(unit.x - rect.size.x, -unit.y, rng.randi_range(5,25), -unit.y),
+		rect.grow_individual(-unit.x, unit.y - rect.size.y, -unit.x, rng.randi_range(5,25)),
+		rect.grow_individual(rng.randi_range(5,25), -unit.y, unit.x - rect.size.x, -unit.y)
 	]
 	var poly = []
 	for index in range(order.size()):
