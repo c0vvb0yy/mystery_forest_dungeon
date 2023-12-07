@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cf6g5nmf5x22i"]
+[gd_scene load_steps=24 format=3 uid="uid://cf6g5nmf5x22i"]
 
 [ext_resource type="Script" path="res://BasicDungeon/BasicDungeon.gd" id="1_gexua"]
 [ext_resource type="Texture2D" uid="uid://cpo5t16byv6hb" path="res://Art/bg.png" id="2_eyukc"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c7fc1kfeyx2a1" path="res://tilemap_ressource.tscn" id="3_147b0"]
 [ext_resource type="Texture2D" uid="uid://d30b8dvcpm6vk" path="res://Art/TileMaps/64x64.png" id="3_pspgm"]
 [ext_resource type="Texture2D" uid="uid://dfqeaby17gn8t" path="res://Art/TileMaps/Tiled/Images/Set_A_Darkwoods1.png" id="4_h6cbb"]
+[ext_resource type="Shader" path="res://BasicDungeon/tilemap.gdshader" id="4_ld5o4"]
 [ext_resource type="Script" path="res://BasicDungeon/DebugLabel.gd" id="6_nac4t"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="7_qcpiw"]
 [ext_resource type="Texture2D" uid="uid://qlyt82oxmbna" path="res://Art/TileMaps/32x32_old.png" id="9_7e8g8"]
@@ -16,12 +17,11 @@
 [ext_resource type="Texture2D" uid="uid://dp5rwr6itxgix" path="res://Art/Shader/ChromaticAbberationTextures/abberration_offset.png" id="10_cmhxn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txmyy"]
-shader = ExtResource("9_8eemo")
+shader = ExtResource("4_ld5o4")
 shader_parameter/red_abberation = null
-shader_parameter/ca_strength = 4.475
+shader_parameter/ca_strength = 10.0
 shader_parameter/color_influence = 1.0
-shader_parameter/is_flashing = false
-shader_parameter/flash_color = null
+shader_parameter/FPS = 5.0
 shader_parameter/offset_texture = ExtResource("10_cmhxn")
 
 [sub_resource type="TileSet" id="TileSet_p2fij"]
@@ -384,11 +384,12 @@ sources/1 = SubResource("TileSetAtlasSource_skjw4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1lnrc"]
 shader = ExtResource("9_8eemo")
-shader_parameter/red_abberation = Color(0, 100, 100, 1)
+shader_parameter/red_abberation = Color(1, 1, 1, 1)
 shader_parameter/ca_strength = 10.0
 shader_parameter/color_influence = 1.0
-shader_parameter/is_flashing = null
+shader_parameter/is_flashing = false
 shader_parameter/flash_color = null
+shader_parameter/FPS = null
 shader_parameter/offset_texture = ExtResource("10_cmhxn")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_trq7b"]

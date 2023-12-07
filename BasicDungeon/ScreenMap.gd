@@ -35,7 +35,7 @@ func initialize_map():
 	stair_room_id = MapData.map[MapData.stair_coords].get_id()
 	visited_rooms.append(cell_group_id)
 	draw_room(cell_group_id)
-	set_cells_terrain_connect(0, cells, 0, 0)
+	#set_cells_terrain_connect(0, cells, 0, 0)
 	draw_stair()
 	pass
 

@@ -61,6 +61,12 @@ func get_random_coord_of_type(type:CellType) -> Vector2i:
 	var room = get_all_coordinates_of_type(type)
 	return room[randi() % room.size()]
 
+##returns a random coordinate that is not on the border of a room
+func get_coord_inside_room() -> Vector2i:
+	var room = get_all_coordinates_of_type(CellType.room)
+	var coord = room[randi() % room.size()]
+	return coord
+
 ##returns all coordinates that are marked as room
 ##Maybe see into throwing an exception if 'type' is not in the CellType enum
 func get_all_coordinates_of_type(type : CellType) -> Array[Vector2i]:
