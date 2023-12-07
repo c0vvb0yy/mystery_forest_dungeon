@@ -787,6 +787,7 @@ script = ExtResource("6_nac4t")
 metadata/_edit_use_anchors_ = true
 
 [node name="MainCam" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+position_smoothing_enabled = true
 script = ExtResource("7_qcpiw")
 target = NodePath("../Player")
 

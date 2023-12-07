@@ -3,7 +3,6 @@ uniform vec4 red_abberation : source_color;
 uniform float ca_strength = 10.0;
 uniform float color_influence : hint_range(0.0, 1.0, 0.01);
 uniform sampler2D offset_texture : hint_default_white;
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform float FPS : hint_range(1.0, 60.0, 1.);
 
 float jiggle_sine_chaos(){
@@ -58,7 +57,7 @@ vec3 paint(vec3 color){
 }
 
 void fragment() {
-	vec4 color = texture(SCREEN_TEXTURE, UV);
+	vec4 color = texture(TEXTURE, UV);
 	
 	float adjust_amount = ca_strength * texture(offset_texture, SCREEN_UV).r / 1000.0;
 	

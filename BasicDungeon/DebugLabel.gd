@@ -10,8 +10,9 @@ func _ready():
 func update():
 	var player_coords = MapData.get_player_coords()
 	var string = str(player_coords, "\n")
-	var cell = MapData.map[player_coords]
-	string += str(cell.get_type(true), "\n")
-	string += str(cell.get_content(true), "\n")
-	string += str(cell.get_id())
+	if MapData.map.has(player_coords):
+		var cell = MapData.map[player_coords]
+		string += str(cell.get_type(true), "\n")
+		string += str(cell.get_content(true), "\n")
+		string += str(cell.get_id())
 	text = string

@@ -1,17 +1,23 @@
 extends Node2D
 
+##player turn is filled with the MapData.turn signal. when player
 var player_turn
 
 var current_coords : Vector2i
 var is_moving := false
+var coyote_timer : float
+const COYOTE_TIME :float = 0.666
+var count_coyote_time := false
 var walking_diagonally := false
 
 var animation_walk_speed := 6.0
 var animation_run_speed := 20.0
 var current_speed = animation_walk_speed
 var direction := Vector2i.ZERO
-
+var prev_direction := Vector2i.ZERO
 var stopped := false
+
+var target_cell
 
 func _ready():
 	MapData.level_start.connect(spawn)
@@ -34,18 +40,23 @@ func _unhandled_input(event):
 		current_speed = animation_walk_speed
 	var _direction:=Vector2i.ZERO
 	
-	if event.is_action_pressed("Diagonal"):
-		walking_diagonally = !walking_diagonally
-	if event.is_action_released("Diagonal"):
-		walking_diagonally = !walking_diagonally
-	
 	if(stopped):
 		if any_movement_captured(event):
 			stopped = false
+	#movement only in 4 directions with WASD
+	if Options.current_profile_id == 0:
+		
+		if event.is_action_pressed("Diagonal"):
+			walking_diagonally = !walking_diagonally
+		if event.is_action_released("Diagonal"):
+			walking_diagonally = !walking_diagonally
+	
+		handle_4_movement(event)
+	#8directional movement with QWEADYXC
 	else:
-		handle_movement(event)
+		handle_8_movement(event)
 
-func handle_movement(event:InputEvent):
+func handle_4_movement(event:InputEvent):
 	if walking_diagonally:
 		if event.is_action("Down"):
 			if direction.y == 0:
@@ -62,7 +73,7 @@ func handle_movement(event:InputEvent):
 		if direction.x == 0 or direction.y == 0:
 			return
 		else:
-			move()
+			move(direction)
 	else:
 		if event.is_action("Down"):
 			direction = Vector2i.DOWN
@@ -73,25 +84,46 @@ func handle_movement(event:InputEvent):
 		if event.is_action("Left"):
 			direction = Vector2i.LEFT
 		if(direction != Vector2i.ZERO):
-			move()
+			move(direction)
 	
 
-func move():
-	var target_coords = current_coords + direction
-	if target_cell_is_free(target_coords):
-		update_cells(target_coords)
-		is_moving = true
-		var tween = create_tween()
-		tween.finished.connect(_on_moving_tween_finished)
-		tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/current_speed).set_trans(Tween.TRANS_SINE)
-		player_turn.emit()
-	direction = Vector2i.ZERO
+func handle_8_movement(event:InputEvent):
+	if event.is_action("Down"):
+		return move(Vector2i.DOWN)
+	if event.is_action("Up"):
+		return move(Vector2i.UP)
+	if event.is_action("Left"):
+		return move(Vector2i.LEFT)
+	if event.is_action("Right"):
+		return move(Vector2i.RIGHT)
+	if event.is_action("RightUp"):
+		return move(Vector2i(1, -1))
+	if event.is_action("LeftUp"):
+		return move(Vector2i(-1, -1))
+	if event.is_action("RightDown"):
+		return move(Vector2i(1, 1))
+	if event.is_action("LeftDown"):
+		return move(Vector2i(-1, 1))
 
-func _on_moving_tween_finished():
+#TODO: look into doing coyote time while player is moving. 
+func move(direction:Vector2i):
+	var target_coords :Vector2i = current_coords + direction
+	if target_cell_is_free(target_coords):
+		is_moving = true
+		var tween := create_tween()
+		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
+		tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/current_speed)#.set_trans(Tween.TRANS_SINE)
+
+
+func _on_moving_tween_finished(target_coords:Vector2i):
+	update_cells(target_coords)
 	is_moving = false
+	count_coyote_time = false
+	direction = Vector2i.ZERO
 	if current_speed == animation_run_speed:
 		check_for_poi()
 	check_ground()
+	
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords)):
@@ -144,13 +176,20 @@ func check_for_poi():
 func check_ground():
 	var cell : Cell
 	cell = MapData.map[current_coords]
-	if cell.get_content() == MapData.CellContent.free:
-		return
 	if cell.get_content() == MapData.CellContent.stair:
 		DungeonManager.create_next_level()
+	else:
+		MapData.turn.emit()
 
 func any_movement_captured(event:InputEvent) -> bool:
-	return event.is_action_pressed("Down") || event.is_action_pressed("Left") || event.is_action_pressed("Right") || event.is_action_pressed("Up")
+	return event.is_action_pressed("Down") || event.is_action_pressed("Left") || event.is_action_pressed("Right") || event.is_action_pressed("Up")|| event.is_action_pressed("RightUp") || event.is_action_pressed("LeftUp")|| event.is_action_pressed("RightDown") || event.is_action_pressed("LeftDown")
+	
+	
 
-func _process(_delta):
-	pass
+#func _physics_process(_delta):
+#	if is_moving:
+#		self.position = lerp(self.position, target_cell, _delta*current_speed)
+#		if position.is_equal_approx(target_cell):
+#			position = target_cell
+#			_on_moving_tween_finished(current_coords + direction)
+#		pass
