@@ -1,28 +1,29 @@
-[gd_scene load_steps=24 format=3 uid="uid://cf6g5nmf5x22i"]
+[gd_scene load_steps=25 format=3 uid="uid://cf6g5nmf5x22i"]
 
-[ext_resource type="Script" path="res://BasicDungeon/BasicDungeon.gd" id="1_gexua"]
-[ext_resource type="Texture2D" uid="uid://cpo5t16byv6hb" path="res://Art/bg.png" id="2_eyukc"]
-[ext_resource type="PackedScene" uid="uid://c3xta1tjxo8ei" path="res://Entities/Player/player.tscn" id="3_2bc8q"]
-[ext_resource type="PackedScene" uid="uid://c7fc1kfeyx2a1" path="res://tilemap_ressource.tscn" id="3_147b0"]
-[ext_resource type="Texture2D" uid="uid://d30b8dvcpm6vk" path="res://Art/TileMaps/64x64.png" id="3_pspgm"]
-[ext_resource type="Texture2D" uid="uid://dfqeaby17gn8t" path="res://Art/TileMaps/Tiled/Images/Set_A_Darkwoods1.png" id="4_h6cbb"]
-[ext_resource type="Shader" path="res://BasicDungeon/tilemap.gdshader" id="4_ld5o4"]
-[ext_resource type="Script" path="res://BasicDungeon/DebugLabel.gd" id="6_nac4t"]
-[ext_resource type="Script" path="res://Scripts/Camera.gd" id="7_qcpiw"]
-[ext_resource type="Texture2D" uid="uid://qlyt82oxmbna" path="res://Art/TileMaps/32x32_old.png" id="9_7e8g8"]
-[ext_resource type="Shader" path="res://BasicDungeon/ScreenMap.gdshader" id="9_8eemo"]
-[ext_resource type="Script" path="res://BasicDungeon/ScreenMap.gd" id="9_c37j5"]
-[ext_resource type="Texture2D" uid="uid://tr5dhjajo04k" path="res://Entities/Player/player_map_icon.png" id="9_kop0t"]
-[ext_resource type="Script" path="res://Scripts/EntityMapIcon.gd" id="10_ayn3a"]
-[ext_resource type="Texture2D" uid="uid://dp5rwr6itxgix" path="res://Art/Shader/ChromaticAbberationTextures/abberration_offset.png" id="10_cmhxn"]
+[ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/BasicDungeon.gd" id="1_qium5"]
+[ext_resource type="Texture2D" uid="uid://cpo5t16byv6hb" path="res://Art/bg.png" id="2_a0hev"]
+[ext_resource type="PackedScene" uid="uid://c7fc1kfeyx2a1" path="res://tilemap_ressource.tscn" id="3_xpxv8"]
+[ext_resource type="Shader" path="res://Entities/Dungeon/BasicDungeon/tilemap.gdshader" id="4_mqakk"]
+[ext_resource type="Texture2D" uid="uid://dp5rwr6itxgix" path="res://Art/Shader/ChromaticAbberationTextures/abberration_offset.png" id="5_k4irt"]
+[ext_resource type="Texture2D" uid="uid://dfqeaby17gn8t" path="res://Art/TileMaps/Tiled/Images/Set_A_Darkwoods1.png" id="6_aibks"]
+[ext_resource type="Texture2D" uid="uid://d30b8dvcpm6vk" path="res://Art/TileMaps/64x64.png" id="7_3yvxt"]
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="8_mtllb"]
+[ext_resource type="PackedScene" uid="uid://c3xta1tjxo8ei" path="res://Entities/Player/player.tscn" id="9_wus6g"]
+[ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/DebugLabel.gd" id="10_7k0da"]
+[ext_resource type="Shader" path="res://Entities/Dungeon/BasicDungeon/ScreenMap.gdshader" id="11_f031b"]
+[ext_resource type="Texture2D" uid="uid://qlyt82oxmbna" path="res://Art/TileMaps/32x32_old.png" id="12_w6v13"]
+[ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/ScreenMap.gd" id="13_pgqyn"]
+[ext_resource type="Texture2D" uid="uid://tr5dhjajo04k" path="res://Entities/Player/player_map_icon.png" id="14_w8yc7"]
+[ext_resource type="Script" path="res://Scripts/EntityMapIcon.gd" id="15_j8hqi"]
+[ext_resource type="PackedScene" uid="uid://1f8o8f1o37v4" path="res://Entities/Enemy/enemy.tscn" id="16_5xt78"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txmyy"]
-shader = ExtResource("4_ld5o4")
+shader = ExtResource("4_mqakk")
 shader_parameter/red_abberation = null
 shader_parameter/ca_strength = 10.0
 shader_parameter/color_influence = 1.0
 shader_parameter/FPS = 5.0
-shader_parameter/offset_texture = ExtResource("10_cmhxn")
+shader_parameter/offset_texture = ExtResource("5_k4irt")
 
 [sub_resource type="TileSet" id="TileSet_p2fij"]
 resource_name = "Forest_tileset_light"
@@ -32,7 +33,7 @@ terrain_set_0/terrain_0/name = "Forest"
 terrain_set_0/terrain_0/color = Color(0.501961, 0.345098, 0.25098, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_32fdi"]
-texture = ExtResource("4_h6cbb")
+texture = ExtResource("6_aibks")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -369,7 +370,7 @@ texture = ExtResource("4_h6cbb")
 5:11/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_skjw4"]
-texture = ExtResource("3_pspgm")
+texture = ExtResource("7_3yvxt")
 texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSet" id="TileSet_13gus"]
@@ -383,17 +384,17 @@ sources/0 = SubResource("TileSetAtlasSource_32fdi")
 sources/1 = SubResource("TileSetAtlasSource_skjw4")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1lnrc"]
-shader = ExtResource("9_8eemo")
+shader = ExtResource("11_f031b")
 shader_parameter/red_abberation = Color(1, 1, 1, 1)
 shader_parameter/ca_strength = 10.0
 shader_parameter/color_influence = 1.0
 shader_parameter/is_flashing = false
 shader_parameter/flash_color = null
 shader_parameter/FPS = null
-shader_parameter/offset_texture = ExtResource("10_cmhxn")
+shader_parameter/offset_texture = ExtResource("5_k4irt")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_trq7b"]
-texture = ExtResource("9_7e8g8")
+texture = ExtResource("12_w6v13")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -738,19 +739,26 @@ sources/0 = SubResource("TileSetAtlasSource_trq7b")
 
 [node name="BasicDungeon" type="Node2D"]
 texture_filter = 1
-script = ExtResource("1_gexua")
+script = ExtResource("1_qium5")
+rooms_max = 5
 
 [node name="BGCanvas" type="CanvasLayer" parent="."]
 layer = -99
+visible = false
 
 [node name="TextureRect" type="TextureRect" parent="BGCanvas"]
+visible = false
 modulate = Color(0, 0, 0, 1)
 texture_filter = 1
-offset_right = 1148.0
-offset_bottom = 648.0
-texture = ExtResource("2_eyukc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_a0hev")
+expand_mode = 2
 
-[node name="Level" parent="." instance=ExtResource("3_147b0")]
+[node name="Level" parent="." instance=ExtResource("3_xpxv8")]
 material = SubResource("ShaderMaterial_txmyy")
 layer_0/tile_data = PackedInt32Array(327699, 720896, 3, -393192, 589824, 0, -393191, 655360, 0, -393190, 327680, 1, -393189, 720896, 2, -327653, 720896, 2, -262117, 720896, 2, -327654, 589824, 2, -327655, 589824, 2, -327656, 589824, 2, -262120, 327680, 2, -196584, 524288, 3, -196583, 589824, 3, -262119, 589824, 2, -262118, 589824, 2, -196582, 589824, 3, -196581, 393216, 3, -196580, 131072, 3, -196579, 131072, 0, -196578, 131072, 3, -262113, 0, 1, -327649, 0, 1, -393185, 0, 1, -458721, 196608, 0, -196577, 196608, 1, -131043, 0, 1, -65507, 196608, 2, -65508, 393216, 0, -65509, 327680, 0, -65510, 131072, 3, -65511, 131072, 3, -65512, 131072, 3, -65513, 393216, 0, -65514, 655360, 0, -65515, 262144, 1, -131051, 0, 1, -196587, 0, 1, -262123, 262144, 2, -262122, 589824, 3, -262121, 589824, 3, -393193, 655360, 0, -393194, 393216, 1, -393195, 589824, 2, -393196, 327680, 2, -458732, 327680, 1, -524268, 524288, 0, -524267, 655360, 0, -524266, 458752, 1, -589801, 131072, 3, -589800, 196608, 0, -524264, 0, 1, -458728, 0, 1, -589802, 65536, 0, -327657, 589824, 2, -327658, 589824, 2, -327659, 327680, 2, -327660, 524288, 3, -131053, 0, 0, -65517, 0, 1, 19, 131072, 1, 20, 131072, 3, 21, 327680, 3, 22, 589824, 3, 65555, 0, 2, 65559, 0, 2, 23, 458752, 2, 27, 524288, 3, 28, 458752, 2, 65564, 0, 1, 131100, 65536, 2, 131101, 131072, 3, 131102, 131072, 3, 131103, 196608, 2, 65567, 65536, 0, 65568, 196608, 2, 32, 0, 1, -65504, 196608, 0, -65505, 65536, 2, -131041, 0, 1, -458722, 131072, 3, -458723, 131072, 3, -458724, 131072, 3, -458725, 393216, 0, -458726, 524288, 0, -65530, 524288, 3, -65529, 393216, 3, -65528, 131072, 3, -65527, 196608, 3, -131062, 0, 2, -196598, 196608, 0, -196599, 131072, 3, -196600, 131072, 3, -196601, 65536, 0, -131065, 458752, 1, -131066, 524288, 0, -65533, 0, 0, 3, 0, 2, 65538, 0, 0, 131074, 196608, 1, 196610, 262144, 1, 196611, 393216, 0, 262147, 720896, 3, 327684, 65536, 3, 327685, 196608, 3, 262150, 524288, 3, 262151, 720896, 3, 196614, 327680, 0, 196613, 131072, 3, 196612, 131072, 3, 262146, 589824, 1, 327682, 720896, 3, 327681, 524288, 3, 262145, 327680, 0, 262144, 65536, 2, 196608, 0, 1, 131072, 65536, 0, 131073, 131072, 3, 196615, 262144, 3, 196616, 131072, 3, 196617, 131072, 3, 196618, 196608, 2, 131082, 262144, 2, 131083, 589824, 3, 131084, 720896, 3, 65548, 720896, 0, 65547, 655360, 0, 65546, 327680, 0, 65545, 131072, 3, 65544, 131072, 3, 65543, 65536, 0, 131079, 0, 1, -458740, 524288, 0, -458739, 589824, 1, -524275, 524288, 0, -524274, 655360, 0, -589809, 65536, 0, -589808, 196608, 3, -524271, 0, 0, -458735, 589824, 0, -393199, 393216, 2, -327663, 458752, 2, -262127, 65536, 2, -196592, 196608, 3, -196593, 65536, 0, -131057, 0, 1, -65521, 131072, 1, -65522, 65536, 3, 15, 0, 2, -65520, 196608, 3, -131055, 0, 3, -196590, 0, 2, -262126, 196608, 0, -393200, 524288, 1, -458737, 393216, 3, -524273, 458752, 1, -458738, 589824, 65539, -393203, 458752, 2, -327667, 65536, 2, -327666, 131072, 3, -327665, 131072, 3, -327664, 327680, 3, -393197, 589824, 65539, -393198, 589824, 3, -458731, 589824, 2, -458730, 720896, 2, -458734, 655360, 0, -458733, 655360, 0, -458736, 327680, 0, -393204, 327680, 3, -393206, 131072, 3, -393205, 131072, 3, -393207, 65536, 2, -327672, 196608, 3, -327673, 131072, 3, -327674, 131072, 3, -327675, 393216, 3, -327676, 524288, 3, -393212, 524288, 0, -393211, 720896, 0, -458746, 65536, 3, -458745, 131072, 3, -458743, 196608, 0, -458744, 131072, 3)
 
@@ -769,7 +777,7 @@ cell_quadrant_size = 128
 format = 2
 layer_0/tile_data = PackedInt32Array(-65536, 0, 3, 5, 0, 5, -65531, 0, 3, -65530, 65536, 3, 6, 65536, 5, 7, 65536, 5, 8, 65536, 5, 9, 65536, 5, 10, 131072, 5, -65526, 131072, 3, -65527, 65536, 3, -65528, 65536, 3, -65529, 65536, 3)
 
-[node name="Player" parent="." instance=ExtResource("3_2bc8q")]
+[node name="Player" parent="." instance=ExtResource("9_wus6g")]
 
 [node name="DebugCanvas" type="CanvasLayer" parent="."]
 
@@ -783,13 +791,8 @@ text = "(0,0)"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
-script = ExtResource("6_nac4t")
+script = ExtResource("10_7k0da")
 metadata/_edit_use_anchors_ = true
-
-[node name="MainCam" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
-position_smoothing_enabled = true
-script = ExtResource("7_qcpiw")
-target = NodePath("../Player")
 
 [node name="MapLayer" type="CanvasLayer" parent="."]
 
@@ -822,7 +825,7 @@ position = Vector2(-1, -1)
 tile_set = SubResource("TileSet_epslg")
 format = 2
 layer_0/tile_data = PackedInt32Array(1310708, 0, 3, 1245171, 0, 3, 1245163, 0, 3, 1245178, 0, 3, 1441779, 0, 3, 1507317, 0, 3, 1376246, 0, 3, 1179640, 0, 3, 1114103, 0, 3, 1048566, 0, 3, 983029, 0, 3, 1048556, 0, 3, 1114088, 0, 3, 1638373, 0, 3, 1572836, 0, 3, 1769448, 0, 3, 1703911, 0, 3, 1769460, 0, 3, 1703926, 0, 3, 1572855, 0, 3, 1441784, 0, 3, 917490, 0, 3, 917485, 0, 3, 917483, 0, 3, 983017, 0, 3, 1376229, 0, 3, 1507302, 0, 3, 1572839, 0, 3, 1703914, 0, 3, 1638377, 0, 3, 1703920, 0, 3, 851937, 0, 3, 1048542, 0, 3, 1310686, 0, 3, 1245149, 0, 3, 1245155, 0, 3, 1245158, 0, 3, 1179626, 0, 3, 1245161, 0, 3, 851944, 0, 3, 851935, 0, 3, 917468, 0, 3, 851933, 0, 3, 1048538, 0, 3, 1114076, 0, 3, 1048546, 0, 3, 131071, 65536, 3, -262143, 0, 3, -327680, 0, 3, -196601, 0, 3, -262136, 0, 3, -393207, 0, 3, -589816, 0, 3, -655353, 0, 3, -589820, 0, 3, -655355, 0, 3, -524286, 0, 3, -458751, 0, 3, -131067, 0, 3, -131064, 0, 3, -262128, 0, 3, -196594, 0, 3, -131060, 0, 3, -458732, 0, 3, -393197, 0, 3, -327662, 0, 3, -655335, 0, 3, -589800, 0, 3, -524266, 0, 3, -917476, 0, 3, -851941, 0, 3, -786406, 0, 3, -1114082, 0, 3, -1048547, 0, 3, -1441759, 0, 3, -1376224, 0, 3, -1245153, 0, 3, -1507294, 0, 3, -1638364, 0, 3, -1769436, 0, 3, -1769434, 0, 3, -1638359, 0, 3, -1703896, 0, 3, -1507285, 0, 3, -1572822, 0, 3, -1376210, 0, 3, -1441747, 0, 3, -1245135, 0, 3, -1310672, 0, 3, -1048525, 0, 3, -1179598, 0, 3, -917451, 0, 3, -982988, 0, 3, -720841, 0, 3, -851914, 0, 3, -589767, 0, 3, -655304, 0, 3, -524230, 0, 3, -393157, 0, 3, -327620, 0, 3, -196547, 0, 3, -65465, 0, 3, -131002, 0, 3, 75, 0, 3, -65462, 0, 3, 65615, 0, 3, 78, 0, 3, 88, 0, 3, 65622, 0, 3, 196691, 0, 3, 262226, 0, 3, 327761, 0, 3, 393296, 0, 3, 393294, 0, 3, 458829, 0, 3, 458821, 0, 3, 524356, 0, 3, 524354, 0, 3, 327664, 0, 3, 262126, 0, 3, 262111, 0, 3, 196583, 0, 3, 196589, 0, 3, 131055, 0, 3, 65520, 0, 3, -15, 0, 3, -131084, 0, 3, -65549, 0, 3, -196619, 0, 3, -393225, 0, 3, -327690, 0, 3, -589831, 0, 3, -524296, 0, 3, -655365, 0, 3, -262149, 0, 3, -131078, 0, 3, 196600, 0, 3, 327672, 0, 3, 458745, 0, 3, 589818, 0, 3, 720894, 0, 3, 720908, 0, 3, 524307, 196608, 3, 327679, 196608, 3, -131070, 0, 3, -65538, 0, 3, -65545, 0, 3, 65530, 0, 3, 65532, 0, 3, 327678, 65536, 0, 393211, 0, 3, 393214, 0, 2, 720892, 0, 3, 786431, 0, 3, 786432, 0, 3, 786436, 0, 3, 524309, 0, 3, 131069, 0, 3, 262166, 0, 3, 262164, 0, 3, 327693, 196608, 0, 458769, 0, 0, 524305, 131072, 2, 524304, 65536, 3, 524306, 131072, 3, 524299, 65536, 3, 524300, 196608, 3, 327692, 65536, 2, 262156, 0, 0, 393229, 0, 2, 65547, 131072, 3, 65548, 131072, 1, 65549, 196608, 3, 12, 0, 0, 131084, 0, 2, 65546, 65536, 2, 10, 0, 0, 65536, 131072, 1, 65537, 131072, 3, 65538, 131072, 3, 65539, 196608, 1, 0, 0, 0, 131072, 0, 2, 3, 65536, 0, 4, 196608, 3, 131075, 0, 2, 720901, 65536, 3, 720902, 131072, 3, 720903, 196608, 3, 458753, 65536, 2, 458754, 131072, 3, 458755, 131072, 3, 458756, 131072, 0, 458757, 131072, 0, 458758, 131072, 0, 458759, 131072, 0, 458760, 131072, 0, 458761, 131072, 0, 589829, 131072, 3, 589830, 131072, 2, 589831, 131072, 3, 589832, 196608, 2, 589828, 131072, 2, 589827, 131072, 3, 589826, 65536, 3, 458762, 131072, 0, 524292, 131072, 2, 524293, 131072, 2, 524294, 131072, 2, 524295, 131072, 2, 524296, 131072, 2, 524297, 131072, 2, 262146, 720896, 0, 262145, 65536, 0, 327682, 720896, 3, 327681, 458752, 0, 327680, 65536, 3, 393217, 0, 1, -131065, 196608, 0, 262150, 65536, 3, 262151, 131072, 2, 262152, 131072, 3, 262153, 196608, 3, 196615, 262144, 1, 131079, 0, 1)
-script = ExtResource("9_c37j5")
+script = ExtResource("13_pgqyn")
 
 [node name="MapCam" type="Camera2D" parent="MapLayer/SubViewportContainer/SubViewport"]
 texture_filter = 1
@@ -836,5 +839,12 @@ layer_0/tile_data = PackedInt32Array(262141, 589824, 3, 262142, 589824, 3, 26214
 
 [node name="PlayerMapIcon" type="Sprite2D" parent="MapLayer/SubViewportContainer/SubViewport"]
 position = Vector2(-1, -1)
-texture = ExtResource("9_kop0t")
-script = ExtResource("10_ayn3a")
+texture = ExtResource("14_w8yc7")
+script = ExtResource("15_j8hqi")
+
+[node name="Enemy" parent="." instance=ExtResource("16_5xt78")]
+
+[node name="MainCam" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+position_smoothing_enabled = true
+script = ExtResource("8_mtllb")
+target = NodePath("../Player")

@@ -1,6 +1,6 @@
 extends Node
 
-var dungeon_level = preload("res://BasicDungeon/BasicDungeon.tscn")
+var dungeon_level = preload("res://Entities/Dungeon/BasicDungeon/BasicDungeon.tscn")
 var floor := 1
 func create_next_level():
 	MapData.clear_map()

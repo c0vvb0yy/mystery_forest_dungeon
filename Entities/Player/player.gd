@@ -1,13 +1,13 @@
 extends Node2D
 
 ##player turn is filled with the MapData.turn signal. when player
-var player_turn
+signal player_turn
 
 var current_coords : Vector2i
 var is_moving := false
-var coyote_timer : float
-const COYOTE_TIME :float = 0.666
-var count_coyote_time := false
+#var coyote_timer : float
+#const COYOTE_TIME :float = 0.666
+#var count_coyote_time := false
 var walking_diagonally := false
 
 var animation_walk_speed := 6.0
@@ -21,7 +21,11 @@ var target_cell
 
 func _ready():
 	MapData.level_start.connect(spawn)
-	player_turn = MapData.turn
+	walking_diagonally = false
+	current_speed = animation_walk_speed
+	stopped = false
+	direction = Vector2i.ZERO
+	prev_direction = Vector2i.ZERO
 
 func spawn():
 	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room)
@@ -48,8 +52,8 @@ func _unhandled_input(event):
 		
 		if event.is_action_pressed("Diagonal"):
 			walking_diagonally = !walking_diagonally
-		if event.is_action_released("Diagonal"):
-			walking_diagonally = !walking_diagonally
+		#if event.is_action_released("Diagonal"):
+			#walking_diagonally = !walking_diagonally
 	
 		handle_4_movement(event)
 	#8directional movement with QWEADYXC
@@ -105,9 +109,11 @@ func handle_8_movement(event:InputEvent):
 	if event.is_action("LeftDown"):
 		return move(Vector2i(-1, 1))
 
-#TODO: look into doing coyote time while player is moving. 
+
+@warning_ignore("shadowed_variable")
 func move(direction:Vector2i):
 	var target_coords :Vector2i = current_coords + direction
+	player_turn.emit(target_coords)
 	if target_cell_is_free(target_coords):
 		is_moving = true
 		var tween := create_tween()
@@ -118,12 +124,11 @@ func move(direction:Vector2i):
 func _on_moving_tween_finished(target_coords:Vector2i):
 	update_cells(target_coords)
 	is_moving = false
-	count_coyote_time = false
+	#count_coyote_time = false
 	direction = Vector2i.ZERO
 	if current_speed == animation_run_speed:
 		check_for_poi()
 	check_ground()
-	
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords)):

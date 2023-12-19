@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://c7fc1kfeyx2a1"]
 
 [ext_resource type="Texture2D" uid="uid://d30b8dvcpm6vk" path="res://Art/TileMaps/64x64.png" id="1_fpuop"]
-[ext_resource type="Shader" path="res://BasicDungeon/tilemap.gdshader" id="1_kww7g"]
+[ext_resource type="Shader" path="res://Entities/Dungeon/BasicDungeon/tilemap.gdshader" id="1_q2laj"]
 [ext_resource type="Texture2D" uid="uid://dp5rwr6itxgix" path="res://Art/Shader/ChromaticAbberationTextures/abberration_offset.png" id="2_q82li"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xcnyk"]
-shader = ExtResource("1_kww7g")
+shader = ExtResource("1_q2laj")
 shader_parameter/red_abberation = null
 shader_parameter/ca_strength = 10.0
 shader_parameter/color_influence = 0.0

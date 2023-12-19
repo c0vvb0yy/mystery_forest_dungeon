@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://1f8o8f1o37v4"]
+
+[ext_resource type="PackedScene" uid="uid://cbv6ybgetuoed" path="res://Entities/Components/Health/health_component.tscn" id="1_mtqds"]
+[ext_resource type="Script" path="res://Entities/Enemy/Enemy.gd" id="1_rlvrj"]
+[ext_resource type="Texture2D" uid="uid://uh1lv145ehas" path="res://Art/Singles/enemies/hands.png" id="4_avbul"]
+
+[node name="Enemy" type="Node2D"]
+script = ExtResource("1_rlvrj")
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_mtqds")]
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_avbul")

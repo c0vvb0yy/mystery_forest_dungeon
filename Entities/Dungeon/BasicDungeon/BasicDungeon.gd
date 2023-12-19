@@ -57,6 +57,6 @@ func generate_staircase():
 	#screen_map.set_cell(0, stair_location, 0, Vector2i(0, 3))
 	var stair_cell : Cell
 	stair_cell = MapData.map[stair_location]
-	stair_cell.set_content(MapData.CellContent.stair)
+	stair_cell.set_content(null, MapData.CellContent.stair)
 	MapData.map[stair_location] = stair_cell
 	MapData.stair_coords = stair_location

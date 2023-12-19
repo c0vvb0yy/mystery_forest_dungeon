@@ -14,6 +14,10 @@ var coords : Vector2i
 var _type : int
 var _content : int
 
+##holds reference to actual thing on it
+## could be player, item, enemy
+var cell_content
+#DEPRECATED
 var has_player := false
 
 ##All cells of the same room or corridor will be given the same group id
@@ -59,8 +63,9 @@ func set_type(type: MapData.CellType):
 
 ##Updates the content of the cell
 ##There will probably need to be way more logic once it comes to items
-func set_content(content: MapData.CellContent):
-	_content = content
+func set_content(content, content_id:MapData.CellContent):
+	cell_content = content
+	_content = content_id
 
 func _print():
 	print(str(coords))
