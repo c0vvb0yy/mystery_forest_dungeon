@@ -1,9 +1,13 @@
 extends Node2D
 ##Script to immanentize the proceduraly the dungeon layout into the game
 
+@export_group("Dungeon Metrics")
 @export var level_size := Vector2(100, 80)
 @export var rooms_size := Vector2(10, 14)
 @export var rooms_max := 15
+
+@export_group("spawnables")
+@export var possible_enemies : Array[PackedScene]
 
 @onready var level: TileMap = $Level
 @onready var screen_map: TileMap = $MapLayer/SubViewportContainer/SubViewport/ScreenMap
@@ -12,8 +16,10 @@ extends Node2D
 var map: Array[Vector2i]
 
 func _ready() -> void:
+	spawn_enemies()
 	generate()
 	setup_map_cam()
+	MapData.emit_signal("level_start")
 
 func setup_map_cam() -> void:
 	screen_cam.position = to_global(level.map_to_local(level_size / 2))
@@ -30,9 +36,14 @@ func generate() -> void:
 	level.set_cells_terrain_connect(0, map, 0, 0)
 	#screen_map.set_cells_terrain_connect(0, map, 0, 0)
 	MapData.init_map(level_dictionary, level)
-	correct_corridors_to_be_rooms()
 	generate_staircase()
-	MapData.emit_signal("level_start")
+	correct_corridors_to_be_rooms()
+
+func spawn_enemies():
+	for i in range(DungeonManager.floor):
+		var enem = possible_enemies[0].instantiate()
+		add_child(enem)
+		print("enemy spawned")
 
 ## If there were corridors built that border on rooms, we should change their tpyes to room in the data
 ## since that is what they appear as

@@ -137,8 +137,8 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].gain_player(false)
-	MapData.map[target_coords].gain_player(true)
+	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
+	MapData.map[target_coords].set_content(self, MapData.CellContent.player)
 	MapData.player_coords = target_coords
 	current_coords = target_coords
 

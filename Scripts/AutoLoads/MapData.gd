@@ -81,7 +81,7 @@ func prepare_a_star():
 					a_star.connect_points(i, point_id)
 					break
 
-func find_path(current_coords, destination_coords) -> PackedVector2Array:
+func find_path(current_coords:Vector2i, destination_coords:Vector2i) -> PackedVector2Array:
 	var curr_id = a_star_dict.find_key(current_coords)
 	var target_id = a_star_dict.find_key(destination_coords)
 	var path = a_star.get_point_path(curr_id, target_id)

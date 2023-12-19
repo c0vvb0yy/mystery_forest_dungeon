@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Mystery Dungeon Forest Queen"
 run/main_scene="res://Entities/Dungeon/BasicDungeon/BasicDungeon.tscn"
-config/features=PackedStringArray("4.1", "Mobile")
+config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
