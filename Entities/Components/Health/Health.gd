@@ -28,8 +28,7 @@ func take_damage(damage:int):
 		die()
 
 func die():
-	emit_signal("died")
 	var parent = get_parent()
-	MapData.map[parent.current_coords].set_content(null, MapData.CellContent.free)
+	parent.is_dead = true
 	parent.die()
 	#parent.queue_free()

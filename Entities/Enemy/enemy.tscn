@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://1f8o8f1o37v4"]
+[gd_scene load_steps=4 format=3 uid="uid://1f8o8f1o37v4"]
 
 [ext_resource type="PackedScene" uid="uid://cbv6ybgetuoed" path="res://Entities/Components/Health/health_component.tscn" id="1_mtqds"]
 [ext_resource type="Script" path="res://Entities/Enemy/Enemy.gd" id="1_rlvrj"]
+[ext_resource type="PackedScene" uid="uid://c6mqul5kamsdt" path="res://Entities/Components/Attacks/standard_attack.tscn" id="3_x1c6x"]
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource("1_rlvrj")
@@ -11,3 +12,6 @@ texture_filter = 1
 
 [node name="HealthComponent" parent="." instance=ExtResource("1_mtqds")]
 max_health = 2
+
+[node name="StandardAttack" parent="." instance=ExtResource("3_x1c6x")]
+attack_damage = 1

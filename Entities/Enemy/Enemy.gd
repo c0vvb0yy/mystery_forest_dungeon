@@ -9,7 +9,8 @@ var path
 var path_index : int = 0
 var is_moving := false
 var is_tracking := false
-
+var has_attacked := false
+var is_dead := false
 @onready
 var health := $HealthComponent
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +28,15 @@ func spawn():
 
 
 func start_turn():
+	if is_dead:
+		finish_turn()
+		return
+	if is_tracking:
+		check_to_attack_player()
+		if has_attacked:
+			has_attacked = false
+			finish_turn()
+			return
 	#check if player is in same room or vicinity
 	look_for_player()
 	#check if i have a path to go on
@@ -61,6 +71,19 @@ func look_for_player():
 	#else:
 		#is_tracking = false
 
+func check_to_attack_player():
+	for cell in MapData.get_surrounding_cells(current_coords):
+		if cell.has_player:
+			attack()
+
+func attack():
+	var direction = MapData.player_coords - current_coords
+	var tween = create_tween()
+	tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_OUT)#.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "position",(position + Vector2(direction) * MapData.CELLSIZE) - Vector2(direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_IN).set_delay(1.0/PlayerManager.speed*0.5)
+	$StandardAttack.attack(MapData.player_coords)
+	has_attacked = true
+
 func get_player_destination():
 	path = MapData.find_path(current_coords, MapData.get_player_coords())
 
@@ -79,8 +102,7 @@ func start_move(target_coord:Vector2i):
 func move(target_coords:Vector2i):
 	if target_cell_is_free(target_coords):
 		update_cells(target_coords)
-		EnemyManager.index += 1
-		EnemyManager.next_enemy_turn()
+		finish_turn()
 		is_moving = true
 		var tween := create_tween()
 		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
@@ -93,6 +115,10 @@ func _on_moving_tween_finished(target_coords:Vector2i):
 	#if current_speed == animation_run_speed:
 	#	check_for_poi()
 	#check_ground()
+
+func finish_turn():
+	EnemyManager.index += 1
+	EnemyManager.next_enemy_turn()
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords)):
@@ -118,7 +144,7 @@ func die():
 	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.3)
 	tween.tween_property(self, "modulate:a", 0, 0.1).set_delay(0.4)
 	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.5)
-	
 
 func delete():
+	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
 	queue_free()

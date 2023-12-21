@@ -12,3 +12,5 @@ func show_damage(damage:String):
 
 func on_tween_finished():
 	position = Vector2.ZERO
+	label.text = ""
+	self.modulate.a = 1.0

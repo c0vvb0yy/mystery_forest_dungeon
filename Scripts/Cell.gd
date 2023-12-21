@@ -16,8 +16,9 @@ var _content : int
 
 ##holds reference to actual thing on it
 ## could be player, item, enemy
-var cell_content
-#DEPRECATED
+## index 1 is EITHER the player or null
+var cell_content := [null,null]
+
 var has_player := false
 
 ##All cells of the same room or corridor will be given the same group id
@@ -60,8 +61,12 @@ func get_content(pretty_string:=false):
 func get_id():
 	return group_id
 
-func gain_player(player_is_on):
+func gain_player(player_is_on, player):
 	has_player = player_is_on
+	if player_is_on:
+		cell_content[1] = player
+	else:
+		cell_content[1] = null
 
 ## sets the type of cell
 func set_type(type: MapData.CellType):
@@ -70,7 +75,7 @@ func set_type(type: MapData.CellType):
 ##Updates the content of the cell
 ##There will probably need to be way more logic once it comes to items
 func set_content(content, content_id:MapData.CellContent):
-	cell_content = content
+	cell_content[0] = content
 	_content = content_id
 
 func _print():

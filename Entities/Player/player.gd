@@ -20,6 +20,8 @@ var stopped := false
 
 var target_cell
 
+var is_dead := false
+
 @onready
 var standard_attack := $StandardAttack
 
@@ -35,7 +37,7 @@ func spawn():
 	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room)
 	position = MapData.tile_map.map_to_local(spawn_location)
 	current_coords = spawn_location
-	MapData.map[spawn_location].gain_player(true)
+	MapData.map[spawn_location].gain_player(true, self)
 	MapData.player_coords = spawn_location
 	
 
@@ -145,8 +147,8 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].gain_player(false)#.set_content(null, MapData.CellContent.free)
-	MapData.map[target_coords].gain_player(true)#.set_content(self, MapData.CellContent.player)
+	MapData.map[current_coords].gain_player(false, self)#.set_content(null, MapData.CellContent.free)
+	MapData.map[target_coords].gain_player(true, self)#.set_content(self, MapData.CellContent.player)
 	MapData.player_coords = target_coords
 	current_coords = target_coords
 
@@ -209,6 +211,23 @@ func execute_standard_attack():
 
 func attack_finished():
 	is_attacking = false
+	MapData.turn.emit()
+
+func take_damage(damage:int):
+	$HealthComponent.take_damage(damage)
+
+func die():
+	var tween = create_tween()
+	tween.finished.connect(delete)
+	tween.tween_property(self, "modulate:a", 0, 0.1)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.1)
+	tween.tween_property(self, "modulate:a", 0, 0.1).set_delay(0.2)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.3)
+	tween.tween_property(self, "modulate:a", 0, 0.1).set_delay(0.4)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.5)
+
+func delete():
+	DungeonManager.create_next_level()
 
 #func _physics_process(_delta):
 #	if is_moving:
