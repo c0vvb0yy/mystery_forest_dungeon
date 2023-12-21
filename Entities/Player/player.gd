@@ -29,6 +29,7 @@ func _ready():
 	MapData.level_start.connect(spawn)
 	walking_diagonally = false
 	PlayerManager.speed = animation_walk_speed
+	PlayerManager.life_update.connect(die)
 	stopped = false
 	#direction = Vector2i.ZERO
 	prev_direction = Vector2i.ZERO
@@ -214,6 +215,7 @@ func attack_finished():
 	MapData.turn.emit()
 
 func take_damage(damage:int):
+	PlayerManager.take_damage(damage)
 	$HealthComponent.take_damage(damage)
 
 func die():
@@ -227,7 +229,8 @@ func die():
 	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.5)
 
 func delete():
-	DungeonManager.create_next_level()
+	get_tree().quit()
+	#DungeonManager.create_next_level()
 
 #func _physics_process(_delta):
 #	if is_moving:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cf6g5nmf5x22i"]
+[gd_scene load_steps=27 format=3 uid="uid://cf6g5nmf5x22i"]
 
 [ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/BasicDungeon.gd" id="1_qium5"]
 [ext_resource type="PackedScene" uid="uid://bbj7qnwmph7ra" path="res://Entities/Enemy/hands.tscn" id="2_5yw3y"]
@@ -17,6 +17,7 @@
 [ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/ScreenMap.gd" id="13_pgqyn"]
 [ext_resource type="Texture2D" uid="uid://tr5dhjajo04k" path="res://Entities/Player/player_map_icon.png" id="14_w8yc7"]
 [ext_resource type="Script" path="res://Scripts/EntityMapIcon.gd" id="15_j8hqi"]
+[ext_resource type="Script" path="res://Entities/Player/HealthProgressBar.gd" id="18_go7xy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txmyy"]
 shader = ExtResource("4_mqakk")
@@ -846,3 +847,14 @@ script = ExtResource("15_j8hqi")
 position_smoothing_enabled = true
 script = ExtResource("8_mtllb")
 target = NodePath("../Player")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD"]
+texture_filter = 1
+offset_left = 5.0
+offset_top = 12.0
+offset_right = 567.0
+offset_bottom = 39.0
+value = 100.0
+script = ExtResource("18_go7xy")
