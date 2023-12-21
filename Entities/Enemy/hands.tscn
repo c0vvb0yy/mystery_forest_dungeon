@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbj7qnwmph7ra"]
+
+[ext_resource type="PackedScene" uid="uid://1f8o8f1o37v4" path="res://Entities/Enemy/enemy.tscn" id="1_siynp"]
+[ext_resource type="Texture2D" uid="uid://uh1lv145ehas" path="res://Art/Singles/enemies/hands.png" id="2_v6lqt"]
+
+[node name="Enemy" instance=ExtResource("1_siynp")]
+
+[node name="Sprite2D2" parent="." index="1"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_v6lqt")

@@ -1,15 +1,19 @@
 extends Node2D
 
+@export
+var sight_range : int = 2
+
 var current_coords : Vector2i
 
 var path
 var path_index : int = 0
 var is_moving := false
 var is_tracking := false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MapData.level_start.connect(spawn)
-	MapData.turn.connect(start_turn)
+	#MapData.turn.connect(start_turn)
 	pass # Replace with function body.
 
 func spawn():
@@ -17,6 +21,7 @@ func spawn():
 	position = MapData.tile_map.map_to_local(spawn_location)
 	current_coords = spawn_location
 	get_new_destination()
+	EnemyManager.register(self)
 
 
 func start_turn():
@@ -27,7 +32,7 @@ func start_turn():
 		get_new_destination()
 	print("next cell:", Vector2i(path[path_index]), "current cell: ", current_coords)
 	start_move(Vector2i(path[path_index]))
-	path_index += 1
+	
 	pass
 
 func look_for_player():
@@ -36,8 +41,26 @@ func look_for_player():
 	if curr_id == player_id && !is_tracking:
 		is_tracking = true
 		get_new_destination()
-	else: 
+		#get_player_destination()
+	else:
+		for cell in MapData.get_surrounding_cells_in_range(current_coords, sight_range):
+			if cell.has_player:
+				print("found player in: ", cell.coords)
+				is_tracking = true
+				return
 		is_tracking = false
+		
+		
+	#if curr_id == player_id && !is_tracking:
+		#is_tracking = true
+		#get_new_destination()
+	#else: if is_tracking:
+		#pass
+	#else:
+		#is_tracking = false
+
+func get_player_destination():
+	path = MapData.find_path(current_coords, MapData.get_player_coords())
 
 func get_new_destination():
 	var destination
@@ -53,15 +76,17 @@ func start_move(target_coord:Vector2i):
 
 func move(target_coords:Vector2i):
 	if target_cell_is_free(target_coords):
+		update_cells(target_coords)
+		EnemyManager.index += 1
+		EnemyManager.next_enemy_turn()
 		is_moving = true
 		var tween := create_tween()
 		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
-		tween.tween_property(self, "position", MapData.tile_map.map_to_local(target_coords), 1.0/6.0)#.set_trans(Tween.TRANS_SINE)
+		tween.tween_property(self, "position", MapData.tile_map.map_to_local(target_coords), 1.0/PlayerManager.speed)#.set_trans(Tween.TRANS_SINE)
 
 func _on_moving_tween_finished(target_coords:Vector2i):
-	update_cells(target_coords)
 	is_moving = false
-	
+	path_index += 1
 	#direction = Vector2i.ZERO
 	#if current_speed == animation_run_speed:
 	#	check_for_poi()
@@ -69,8 +94,8 @@ func _on_moving_tween_finished(target_coords:Vector2i):
 
 func target_cell_is_free(target_coords:Vector2i) -> bool:
 	if(MapData.map.get(target_coords)):
-		var cell_content = MapData.map.get(target_coords).get_content()
-		if(cell_content == MapData.CellContent.enemy || cell_content == MapData.CellContent.player):
+		var cell = MapData.map.get(target_coords)
+		if(cell.get_content() == MapData.CellContent.enemy || cell.has_player):
 			return false
 	return true
 
