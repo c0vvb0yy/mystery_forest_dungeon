@@ -5,5 +5,7 @@
 
 [node name="Enemy" instance=ExtResource("1_rjqli")]
 
-[node name="Sprite2D2" parent="." index="1"]
+[node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_1rmsi")
+
+[editable path="HealthComponent"]

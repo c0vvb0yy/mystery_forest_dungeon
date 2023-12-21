@@ -108,3 +108,17 @@ func update_cells(target_coords:Vector2i):
 
 func take_damage(damage:int):
 	health.take_damage(damage)
+
+func die():
+	var tween = create_tween()
+	tween.finished.connect(delete)
+	tween.tween_property(self, "modulate:a", 0, 0.1)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.1)
+	tween.tween_property(self, "modulate:a", 0, 0.1).set_delay(0.2)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.3)
+	tween.tween_property(self, "modulate:a", 0, 0.1).set_delay(0.4)
+	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.5)
+	
+
+func delete():
+	queue_free()

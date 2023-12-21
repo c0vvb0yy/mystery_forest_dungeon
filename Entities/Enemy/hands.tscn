@@ -5,6 +5,6 @@
 
 [node name="Enemy" instance=ExtResource("1_siynp")]
 
-[node name="Sprite2D2" parent="." index="1"]
+[node name="Sprite2D" parent="." index="0"]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_v6lqt")
