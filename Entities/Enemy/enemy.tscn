@@ -7,6 +7,7 @@
 script = ExtResource("1_rlvrj")
 
 [node name="HealthComponent" parent="." instance=ExtResource("1_mtqds")]
+max_health = 2
 
 [node name="Sprite2D2" type="Sprite2D" parent="."]
 texture_filter = 1

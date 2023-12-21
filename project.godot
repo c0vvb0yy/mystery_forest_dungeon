@@ -87,6 +87,10 @@ RightDown={
 "deadzone": 0.5,
 "events": []
 }
+Attack={
+"deadzone": 0.5,
+"events": []
+}
 
 [rendering]
 

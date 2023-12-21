@@ -6,6 +6,9 @@ signal died
 var max_health : int
 var curr_health : int
 
+func _ready():
+	init_health()
+
 func init_health():
 	curr_health = max_health
 
@@ -23,4 +26,6 @@ func take_damage(damage:int):
 
 func die():
 	emit_signal("died")
-	queue_free()
+	var parent = get_parent()
+	MapData.map[parent.current_coords].set_content(null, MapData.CellContent.free)
+	parent.queue_free()

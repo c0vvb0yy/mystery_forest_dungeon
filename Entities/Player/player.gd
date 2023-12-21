@@ -5,6 +5,7 @@ signal player_turn
 
 var current_coords : Vector2i
 var is_moving := false
+var is_attacking := false
 #var coyote_timer : float
 #const COYOTE_TIME :float = 0.666
 #var count_coyote_time := false
@@ -12,18 +13,22 @@ var walking_diagonally := false
 
 var animation_walk_speed := 6.0
 var animation_run_speed := 20.0
-var direction := Vector2i.ZERO
+#var direction := Vector2i.ZERO
+var facing_direction := Vector2i.ZERO
 var prev_direction := Vector2i.ZERO
 var stopped := false
 
 var target_cell
+
+@onready
+var standard_attack := $StandardAttack
 
 func _ready():
 	MapData.level_start.connect(spawn)
 	walking_diagonally = false
 	PlayerManager.speed = animation_walk_speed
 	stopped = false
-	direction = Vector2i.ZERO
+	#direction = Vector2i.ZERO
 	prev_direction = Vector2i.ZERO
 
 func spawn():
@@ -47,19 +52,22 @@ func _unhandled_input(event):
 		if any_movement_captured(event):
 			stopped = false
 	#movement only in 4 directions with WASD
-	if Options.current_profile_id == 0:
-		
+	
+	if event.is_action_pressed("Attack") && !is_attacking:
+		execute_standard_attack()
+	
+	if Options.current_profile_id == 0:	
 		if event.is_action_pressed("Diagonal"):
 			walking_diagonally = !walking_diagonally
 		#if event.is_action_released("Diagonal"):
 			#walking_diagonally = !walking_diagonally
-	
 		handle_4_movement(event)
 	#8directional movement with QWEADYXC
 	else:
 		handle_8_movement(event)
 
 func handle_4_movement(event:InputEvent):
+	var direction : Vector2i
 	if walking_diagonally:
 		if event.is_action("Down"):
 			if direction.y == 0:
@@ -79,15 +87,15 @@ func handle_4_movement(event:InputEvent):
 			move(direction)
 	else:
 		if event.is_action("Down"):
-			direction = Vector2i.DOWN
+			return move(Vector2i.DOWN)
 		if event.is_action("Up"):
-			direction = Vector2i.UP
+			return move(Vector2i.UP)
 		if event.is_action("Right"):
-			direction = Vector2i.RIGHT
+			return move(Vector2i.RIGHT)
 		if event.is_action("Left"):
-			direction = Vector2i.LEFT
+			return move(Vector2i.LEFT)
 		if(direction != Vector2i.ZERO):
-			move(direction)
+			return move(direction)
 	
 
 func handle_8_movement(event:InputEvent):
@@ -108,23 +116,24 @@ func handle_8_movement(event:InputEvent):
 	if event.is_action("LeftDown"):
 		return move(Vector2i(-1, 1))
 
-
-@warning_ignore("shadowed_variable")
 func move(direction:Vector2i):
 	var target_coords :Vector2i = current_coords + direction
-	player_turn.emit(target_coords)
+	turn_in_direction(direction)
+	#player_turn.emit(target_coords)
 	if target_cell_is_free(target_coords):
 		is_moving = true
 		var tween := create_tween()
 		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
 		tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed)#.set_trans(Tween.TRANS_SINE)
 
+func turn_in_direction(direction):
+	facing_direction = direction
+	#this will be filled more with like sprite handling
 
 func _on_moving_tween_finished(target_coords:Vector2i):
 	update_cells(target_coords)
 	is_moving = false
 	#count_coyote_time = false
-	direction = Vector2i.ZERO
 	if PlayerManager.speed == animation_run_speed:
 		check_for_poi()
 	check_ground()
@@ -136,8 +145,6 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	var cur_cell = MapData.map[current_coords]
-	var tar_cell = MapData.map[target_coords]
 	MapData.map[current_coords].gain_player(false)#.set_content(null, MapData.CellContent.free)
 	MapData.map[target_coords].gain_player(true)#.set_content(self, MapData.CellContent.player)
 	MapData.player_coords = target_coords
@@ -191,6 +198,17 @@ func any_movement_captured(event:InputEvent) -> bool:
 	return event.is_action_pressed("Down") || event.is_action_pressed("Left") || event.is_action_pressed("Right") || event.is_action_pressed("Up")|| event.is_action_pressed("RightUp") || event.is_action_pressed("LeftUp")|| event.is_action_pressed("RightDown") || event.is_action_pressed("LeftDown")
 	
 	
+
+func execute_standard_attack():
+	is_attacking = true
+	var tween := create_tween()
+	tween.finished.connect(attack_finished)
+	tween.tween_property(self, "position",position + Vector2(facing_direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_OUT)#.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "position",(position + Vector2(facing_direction) * MapData.CELLSIZE) - Vector2(facing_direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_IN).set_delay(1.0/PlayerManager.speed*0.5)
+	standard_attack.attack(current_coords + facing_direction)
+
+func attack_finished():
+	is_attacking = false
 
 #func _physics_process(_delta):
 #	if is_moving:

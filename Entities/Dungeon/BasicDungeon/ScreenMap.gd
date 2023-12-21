@@ -1,6 +1,4 @@
 extends TileMap
-class_name ScreenMap
-##Class for handling drawing the screenmap
 
 ##helps me keep track of where tiles are in relation to each other
 enum Alignment {

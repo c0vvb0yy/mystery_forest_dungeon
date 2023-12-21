@@ -10,6 +10,8 @@ var path_index : int = 0
 var is_moving := false
 var is_tracking := false
 
+@onready
+var health := $HealthComponent
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	MapData.level_start.connect(spawn)
@@ -101,5 +103,8 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 
 func update_cells(target_coords:Vector2i):
 	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
-	MapData.map[target_coords].set_content(self.get_parent(), 2)
+	MapData.map[target_coords].set_content(self, 2)
 	current_coords = target_coords
+
+func take_damage(damage:int):
+	health.take_damage(damage)

@@ -1,6 +1,6 @@
 extends Node
 
-var current_profile_id = 0
+var current_profile_id = 1
 var control_schemes ={
 	0 : 'four_directions',
 	1 : 'eight_directions'
@@ -10,7 +10,8 @@ var four_directions = {
 	'Up': KEY_W,
 	'Down': KEY_S,
 	'Left': KEY_A,
-	'Right': KEY_D
+	'Right': KEY_D,
+	'Attack': KEY_F
 }
 
 var eight_directions = {
@@ -21,16 +22,21 @@ var eight_directions = {
 	'Right': KEY_D,
 	'LeftDown': KEY_Y,
 	'Down': KEY_X,
-	'RightDown': KEY_C
+	'RightDown': KEY_C,
+	'Attack': KEY_S
 }
+
+func _ready():
+	change_controls()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("SwitchControls"):
+		current_profile_id = 1 if current_profile_id == 0 else 0
 		change_controls()
 	pass
 
 func change_controls():
-	current_profile_id = 1 if current_profile_id == 0 else 0
+	
 	var profile = get(control_schemes[current_profile_id])
 	
 	for action_name in profile.keys():

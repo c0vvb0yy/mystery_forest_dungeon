@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3xta1tjxo8ei"]
+[gd_scene load_steps=5 format=3 uid="uid://c3xta1tjxo8ei"]
 
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_hp8wf"]
 [ext_resource type="Texture2D" uid="uid://st6nu1naxs80" path="res://Entities/Player/porcupine.png" id="2_53hag"]
 [ext_resource type="PackedScene" uid="uid://cbv6ybgetuoed" path="res://Entities/Components/Health/health_component.tscn" id="3_mlm55"]
+[ext_resource type="PackedScene" uid="uid://c6mqul5kamsdt" path="res://Entities/Components/Attacks/standard_attack.tscn" id="4_cm4ap"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_hp8wf")
@@ -13,3 +14,6 @@ max_health = 25
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("2_53hag")
+
+[node name="StandardAttack" parent="." instance=ExtResource("4_cm4ap")]
+attack_damage = 1
