@@ -1,6 +1,6 @@
 extends Node
 
-var current_profile_id = 1
+var current_profile_id = 0
 var control_schemes ={
 	0 : 'four_directions',
 	1 : 'eight_directions'

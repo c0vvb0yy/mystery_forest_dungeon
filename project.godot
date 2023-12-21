@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 MapData="*res://Scripts/AutoLoads/MapData.gd"
 DungeonManager="*res://Scripts/AutoLoads/DungeonManager.gd"
 Options="*res://Scripts/AutoLoads/Options.gd"
+PlayerManager="*res://Scripts/AutoLoads/PlayerManager.gd"
+EnemyManager="*res://Scripts/AutoLoads/EnemyManager.gd"
 
 [editor_plugins]
 

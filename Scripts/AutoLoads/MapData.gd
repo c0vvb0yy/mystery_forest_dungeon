@@ -126,3 +126,39 @@ func get_all_coordinates_of_group(id: int, type: CellType) -> Array[Vector2i]:
 
 func get_player_cell() -> Cell:
 	return map[player_coords]
+
+func get_surrounding_coords(main_coord : Vector2i) -> Array[Vector2i]:
+	var surrounding_coords : Array[Vector2i]
+	for x in range(main_coord.x - 1, main_coord.x + 2):
+		for y in range(main_coord.y - 1, main_coord.y +2):
+			var neighbor = Vector2i(x,y)
+			if neighbor == main_coord:
+				continue
+			if map.get(neighbor):
+				surrounding_coords.append(neighbor)
+	return surrounding_coords
+
+func get_surrounding_coords_in_range(main_coord : Vector2i, range : int) -> Array[Vector2i]:
+	var surrounding_coords : Array[Vector2i]
+	for x in range(main_coord.x - range, main_coord.x + range+1):
+		for y in range(main_coord.y - range, main_coord.y +range+1):
+			var neighbor = Vector2i(x,y)
+			if neighbor == main_coord:
+				continue
+			if map.get(neighbor):
+				surrounding_coords.append(neighbor)
+	return surrounding_coords
+
+func get_surrounding_cells(main_coord : Vector2i) -> Array[Cell]:
+	var surrounding_cells : Array[Cell]
+	var neighbours = get_surrounding_coords(main_coord)
+	for cell in neighbours:
+		surrounding_cells.append(map.get(cell))
+	return surrounding_cells
+
+func get_surrounding_cells_in_range(main_coord: Vector2i, range: int) -> Array[Cell]:
+	var surrounding_cells : Array[Cell]
+	var neighbours = get_surrounding_coords_in_range(main_coord, range)
+	for cell in neighbours:
+		surrounding_cells.append(map.get(cell))
+	return surrounding_cells

@@ -12,7 +12,6 @@ var walking_diagonally := false
 
 var animation_walk_speed := 6.0
 var animation_run_speed := 20.0
-var current_speed = animation_walk_speed
 var direction := Vector2i.ZERO
 var prev_direction := Vector2i.ZERO
 var stopped := false
@@ -22,7 +21,7 @@ var target_cell
 func _ready():
 	MapData.level_start.connect(spawn)
 	walking_diagonally = false
-	current_speed = animation_walk_speed
+	PlayerManager.speed = animation_walk_speed
 	stopped = false
 	direction = Vector2i.ZERO
 	prev_direction = Vector2i.ZERO
@@ -39,9 +38,9 @@ func _unhandled_input(event):
 	if is_moving:
 		return
 	if event.is_action_pressed("Run"):
-		current_speed = animation_run_speed
+		PlayerManager.speed = animation_run_speed
 	if event.is_action_released("Run"):
-		current_speed = animation_walk_speed
+		PlayerManager.speed = animation_walk_speed
 	var _direction:=Vector2i.ZERO
 	
 	if(stopped):
@@ -118,7 +117,7 @@ func move(direction:Vector2i):
 		is_moving = true
 		var tween := create_tween()
 		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
-		tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/current_speed)#.set_trans(Tween.TRANS_SINE)
+		tween.tween_property(self, "position",position + Vector2(direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed)#.set_trans(Tween.TRANS_SINE)
 
 
 func _on_moving_tween_finished(target_coords:Vector2i):
@@ -126,7 +125,7 @@ func _on_moving_tween_finished(target_coords:Vector2i):
 	is_moving = false
 	#count_coyote_time = false
 	direction = Vector2i.ZERO
-	if current_speed == animation_run_speed:
+	if PlayerManager.speed == animation_run_speed:
 		check_for_poi()
 	check_ground()
 
@@ -137,8 +136,10 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
-	MapData.map[target_coords].set_content(self, MapData.CellContent.player)
+	var cur_cell = MapData.map[current_coords]
+	var tar_cell = MapData.map[target_coords]
+	MapData.map[current_coords].gain_player(false)#.set_content(null, MapData.CellContent.free)
+	MapData.map[target_coords].gain_player(true)#.set_content(self, MapData.CellContent.player)
 	MapData.player_coords = target_coords
 	current_coords = target_coords
 
@@ -193,7 +194,7 @@ func any_movement_captured(event:InputEvent) -> bool:
 
 #func _physics_process(_delta):
 #	if is_moving:
-#		self.position = lerp(self.position, target_cell, _delta*current_speed)
+#		self.position = lerp(self.position, target_cell, _delta*PlayerManager.speed)
 #		if position.is_equal_approx(target_cell):
 #			position = target_cell
 #			_on_moving_tween_finished(current_coords + direction)

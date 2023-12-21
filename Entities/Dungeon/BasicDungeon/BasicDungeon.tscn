@@ -1,7 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://cf6g5nmf5x22i"]
+[gd_scene load_steps=26 format=3 uid="uid://cf6g5nmf5x22i"]
 
 [ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/BasicDungeon.gd" id="1_qium5"]
+[ext_resource type="PackedScene" uid="uid://bbj7qnwmph7ra" path="res://Entities/Enemy/hands.tscn" id="2_5yw3y"]
 [ext_resource type="Texture2D" uid="uid://cpo5t16byv6hb" path="res://Art/bg.png" id="2_a0hev"]
+[ext_resource type="PackedScene" uid="uid://c0yiglv8u2ub0" path="res://Entities/Enemy/Bug.tscn" id="3_usmmg"]
 [ext_resource type="PackedScene" uid="uid://c7fc1kfeyx2a1" path="res://tilemap_ressource.tscn" id="3_xpxv8"]
 [ext_resource type="Shader" path="res://Entities/Dungeon/BasicDungeon/tilemap.gdshader" id="4_mqakk"]
 [ext_resource type="Texture2D" uid="uid://dp5rwr6itxgix" path="res://Art/Shader/ChromaticAbberationTextures/abberration_offset.png" id="5_k4irt"]
@@ -15,7 +17,6 @@
 [ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/ScreenMap.gd" id="13_pgqyn"]
 [ext_resource type="Texture2D" uid="uid://tr5dhjajo04k" path="res://Entities/Player/player_map_icon.png" id="14_w8yc7"]
 [ext_resource type="Script" path="res://Scripts/EntityMapIcon.gd" id="15_j8hqi"]
-[ext_resource type="PackedScene" uid="uid://1f8o8f1o37v4" path="res://Entities/Enemy/enemy.tscn" id="16_5xt78"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txmyy"]
 shader = ExtResource("4_mqakk")
@@ -741,14 +742,12 @@ sources/0 = SubResource("TileSetAtlasSource_trq7b")
 texture_filter = 1
 script = ExtResource("1_qium5")
 rooms_max = 5
-possible_enemies = Array[PackedScene]([ExtResource("16_5xt78")])
+possible_enemies = Array[PackedScene]([ExtResource("2_5yw3y"), ExtResource("3_usmmg")])
 
 [node name="BGCanvas" type="CanvasLayer" parent="."]
 layer = -99
-visible = false
 
 [node name="TextureRect" type="TextureRect" parent="BGCanvas"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 texture_filter = 1
 anchors_preset = 15

@@ -16,9 +16,9 @@ extends Node2D
 var map: Array[Vector2i]
 
 func _ready() -> void:
-	spawn_enemies()
 	generate()
 	setup_map_cam()
+	EnemyManager.init()
 	MapData.emit_signal("level_start")
 
 func setup_map_cam() -> void:
@@ -38,12 +38,6 @@ func generate() -> void:
 	MapData.init_map(level_dictionary, level)
 	generate_staircase()
 	correct_corridors_to_be_rooms()
-
-func spawn_enemies():
-	for i in range(DungeonManager.floor):
-		var enem = possible_enemies[0].instantiate()
-		add_child(enem)
-		print("enemy spawned")
 
 ## If there were corridors built that border on rooms, we should change their tpyes to room in the data
 ## since that is what they appear as

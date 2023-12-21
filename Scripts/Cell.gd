@@ -50,6 +50,12 @@ func get_content(pretty_string:=false):
 			return "item"
 		MapData.CellContent.stair:
 			return "staircase"
+		MapData.CellContent.friendly:
+			return "friend"
+		MapData.CellContent.player:
+			return "despite everything. it's u"
+		_:
+			return "u fucked up"
 
 func get_id():
 	return group_id

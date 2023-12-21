@@ -1,9 +1,10 @@
 extends Node
 
 var dungeon_level = preload("res://Entities/Dungeon/BasicDungeon/BasicDungeon.tscn")
-var floor := 1
+var dungeon_floor := 1
 func create_next_level():
 	MapData.clear_map()
-	floor += 1
+	EnemyManager.clear()
+	dungeon_floor += 1
 	get_tree().change_scene_to_packed(dungeon_level)
-	print(floor)
+	print(dungeon_floor)

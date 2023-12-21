@@ -1,4 +1,6 @@
 extends TileMap
+class_name ScreenMap
+##Class for handling drawing the screenmap
 
 ##helps me keep track of where tiles are in relation to each other
 enum Alignment {
@@ -67,11 +69,11 @@ func draw_room(cell_group_id: int):
 		set_cell(0, MapData.stair_coords, 0, Vector2i(0, 3))
 
 func draw_open_corridor(player_pos: Vector2i):
-	cells = []
-	for x in range(player_pos.x - view_range, player_pos.x + view_range+1):
-		for y in range(player_pos.y - view_range, player_pos.y + view_range+1):
-			if MapData.map.get(Vector2i(x,y)) && !drawn_cells.has(Vector2i(x,y)):
-				draw_open_cell(x,y)
+	cells = [] #necessary reset of array
+	var surrounding_cells = MapData.get_surrounding_coords(player_pos)
+	for neighbor in surrounding_cells:
+		if !drawn_cells.has(neighbor):
+			draw_open_cell(neighbor)
 
 func determine_cell(neighbors: Array[int]) -> Vector2i :
 	if neighbors.size() == 8:
@@ -189,27 +191,23 @@ func determine_cell(neighbors: Array[int]) -> Vector2i :
 
 	return Vector2i(0,3)
 
-func draw_open_cell(x:int,y:int):
-	var neighbors = check_for_neighbors(Vector2i(x,y))
+func draw_open_cell(coord:Vector2i):
+	var neighbors = check_for_neighbors(coord)
 	var needed_cell_coords = determine_cell(neighbors)
-	set_cell(0, Vector2i(x,y), 0, needed_cell_coords)
-	cells.append(Vector2i(x,y))
-	drawn_cells.append(Vector2i(x,y))
-
+	set_cell(0, coord, 0, needed_cell_coords)
+	cells.append(coord)
+	drawn_cells.append(coord)
 
 func check_for_room_exits():
 	var border = get_room_border()
 	for cell in border:
-		for x in range(cell.x - 1, cell.x + 2):
-			for y in range(cell.y - 1, cell.y +2):
-				if x == cell.x && y == cell.y:
-					continue
-				var neighbor_cell = MapData.map.get(Vector2i(x,y))
-				if  neighbor_cell:
-					if neighbor_cell.get_type() == MapData.CellType.room && !visited_rooms.has(neighbor_cell.get_id()):
-						visited_rooms.append(MapData.map.get(Vector2i(x,y)).get_id())
-						draw_room(neighbor_cell.get_id())
-					draw_open_cell(x,y)
+		var neighbor_cells = MapData.get_surrounding_coords(cell)
+		for neighbor_cell in neighbor_cells:
+			if MapData.map[neighbor_cell].get_type() == MapData.CellType.room && !visited_rooms.has(MapData.map[neighbor_cell].get_id()):
+				visited_rooms.append(MapData.map.get(neighbor_cell).get_id())
+				draw_room(MapData.map.get(neighbor_cell).get_id())
+			draw_open_cell(neighbor_cell)
+			
 ##returns an array that holds the directions in which the neighboring cells lie
 ##
 ## content is given by Alignment enum
