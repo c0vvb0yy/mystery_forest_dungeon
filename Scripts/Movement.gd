@@ -30,5 +30,5 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return false
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
+	MapData.free_up_cell(current_coords)
 	MapData.map[target_coords].set_content(self.get_parent(), content_type)

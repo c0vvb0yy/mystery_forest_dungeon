@@ -1,7 +1,5 @@
 extends Node2D
 
-signal died
-
 @export
 var max_health : int
 var curr_health : int
@@ -11,6 +9,7 @@ var damage_label = $DamageIndicator
 
 func _ready():
 	init_health()
+	#PlayerManager.health_update.connect(update)
 
 func init_health():
 	curr_health = max_health
@@ -26,6 +25,9 @@ func take_damage(damage:int):
 	damage_label.show_damage(str(damage))
 	if curr_health <= 0:
 		die()
+
+func update():
+	curr_health = PlayerManager.curr_health
 
 func die():
 	var parent = get_parent()

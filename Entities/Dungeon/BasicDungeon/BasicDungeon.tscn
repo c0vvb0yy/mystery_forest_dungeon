@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cf6g5nmf5x22i"]
+[gd_scene load_steps=28 format=3 uid="uid://cf6g5nmf5x22i"]
 
 [ext_resource type="Script" path="res://Entities/Dungeon/BasicDungeon/BasicDungeon.gd" id="1_qium5"]
 [ext_resource type="PackedScene" uid="uid://bbj7qnwmph7ra" path="res://Entities/Enemy/hands.tscn" id="2_5yw3y"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://tr5dhjajo04k" path="res://Entities/Player/player_map_icon.png" id="14_w8yc7"]
 [ext_resource type="Script" path="res://Scripts/EntityMapIcon.gd" id="15_j8hqi"]
 [ext_resource type="Script" path="res://Entities/Player/HealthProgressBar.gd" id="18_go7xy"]
+[ext_resource type="PackedScene" uid="uid://cj3mkyinobwkf" path="res://Entities/UI/menu.tscn" id="19_idon3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txmyy"]
 shader = ExtResource("4_mqakk")
@@ -844,6 +845,7 @@ texture = ExtResource("14_w8yc7")
 script = ExtResource("15_j8hqi")
 
 [node name="MainCam" type="Camera2D" parent="." node_paths=PackedStringArray("target")]
+zoom = Vector2(1.685, 1.685)
 position_smoothing_enabled = true
 script = ExtResource("8_mtllb")
 target = NodePath("../Player")
@@ -858,3 +860,7 @@ offset_right = 567.0
 offset_bottom = 39.0
 value = 100.0
 script = ExtResource("18_go7xy")
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="Menu" parent="Menu" instance=ExtResource("19_idon3")]

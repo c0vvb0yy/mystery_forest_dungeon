@@ -21,7 +21,6 @@ var stopped := false
 var target_cell
 
 var is_dead := false
-
 @onready
 var standard_attack := $StandardAttack
 
@@ -35,7 +34,7 @@ func _ready():
 	prev_direction = Vector2i.ZERO
 
 func spawn():
-	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room)
+	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room, true)
 	position = MapData.tile_map.map_to_local(spawn_location)
 	current_coords = spawn_location
 	MapData.map[spawn_location].gain_player(true, self)
@@ -43,7 +42,7 @@ func spawn():
 	
 
 func _unhandled_input(event):
-	if is_moving:
+	if is_moving || is_attacking || PlayerManager.in_menu || is_dead :
 		return
 	if event.is_action_pressed("Run"):
 		PlayerManager.speed = animation_run_speed
@@ -56,8 +55,12 @@ func _unhandled_input(event):
 			stopped = false
 	#movement only in 4 directions with WASD
 	
+	
 	if event.is_action_pressed("Attack") && !is_attacking:
 		execute_standard_attack()
+	
+	if event.is_action_pressed("UseItem"):
+		use_item()
 	
 	if Options.current_profile_id == 0:	
 		if event.is_action_pressed("Diagonal"):
@@ -122,7 +125,7 @@ func handle_8_movement(event:InputEvent):
 func move(direction:Vector2i):
 	var target_coords :Vector2i = current_coords + direction
 	turn_in_direction(direction)
-	#player_turn.emit(target_coords)
+	player_turn.emit(target_coords)
 	if target_cell_is_free(target_coords):
 		is_moving = true
 		var tween := create_tween()
@@ -195,6 +198,8 @@ func check_ground():
 	if cell.get_content() == MapData.CellContent.stair:
 		DungeonManager.create_next_level()
 	else:
+		if cell.get_content() == MapData.CellContent.item:
+			cell.cell_content[0].pick_up()
 		MapData.turn.emit()
 
 func any_movement_captured(event:InputEvent) -> bool:
@@ -209,6 +214,13 @@ func execute_standard_attack():
 	tween.tween_property(self, "position",position + Vector2(facing_direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_OUT)#.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "position",(position + Vector2(facing_direction) * MapData.CELLSIZE) - Vector2(facing_direction) * MapData.CELLSIZE, 1.0/PlayerManager.speed*0.5).set_ease(Tween.EASE_IN).set_delay(1.0/PlayerManager.speed*0.5)
 	standard_attack.attack(current_coords + facing_direction)
+
+func use_item():
+	print("using item")
+	if PlayerManager.held_item == null:
+		print("no item held")
+		return
+	PlayerManager.held_item.use()
 
 func attack_finished():
 	is_attacking = false

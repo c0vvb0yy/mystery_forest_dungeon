@@ -22,6 +22,12 @@ DungeonManager="*res://Scripts/AutoLoads/DungeonManager.gd"
 Options="*res://Scripts/AutoLoads/Options.gd"
 PlayerManager="*res://Scripts/AutoLoads/PlayerManager.gd"
 EnemyManager="*res://Scripts/AutoLoads/EnemyManager.gd"
+ItemManager="*res://Scripts/AutoLoads/ItemManager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [editor_plugins]
 
@@ -88,6 +94,14 @@ RightDown={
 "events": []
 }
 Attack={
+"deadzone": 0.5,
+"events": []
+}
+UseItem={
+"deadzone": 0.5,
+"events": []
+}
+Pause={
 "deadzone": 0.5,
 "events": []
 }

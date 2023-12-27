@@ -1,0 +1,69 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj3mkyinobwkf"]
+
+[ext_resource type="Script" path="res://Scripts/Menu.gd" id="1_4mkid"]
+[ext_resource type="Texture2D" uid="uid://st6nu1naxs80" path="res://Entities/Player/porcupine.png" id="2_0a6ge"]
+
+[sub_resource type="Theme" id="Theme_fu7kc"]
+default_font_size = 85
+
+[sub_resource type="Theme" id="Theme_345ff"]
+default_font_size = 0
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4mkid")
+
+[node name="Main" type="GridContainer" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 138.0
+offset_top = 129.0
+offset_right = 324.43
+offset_bottom = 344.045
+columns = 2
+
+[node name="MenuButton" type="MenuButton" parent="Main"]
+visible = false
+layout_mode = 2
+theme = SubResource("Theme_fu7kc")
+text = "items"
+item_count = 2
+popup/item_0/text = "here's items"
+popup/item_0/icon = ExtResource("2_0a6ge")
+popup/item_0/checkable = 2
+popup/item_0/id = 0
+popup/item_1/text = "another item lol"
+popup/item_1/id = 1
+
+[node name="MainMenu" type="ItemList" parent="Main"]
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = SubResource("Theme_345ff")
+allow_rmb_select = true
+auto_height = true
+text_overrun_behavior = 0
+same_column_width = true
+icon_scale = 0.015
+
+[node name="ItemList" type="ItemList" parent="Main"]
+visible = false
+texture_filter = 1
+clip_contents = false
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme = SubResource("Theme_345ff")
+allow_rmb_select = true
+auto_height = true
+text_overrun_behavior = 0
+same_column_width = true
+icon_scale = 0.015
+
+[connection signal="item_clicked" from="Main/MainMenu" to="." method="_on_main_menu_item_clicked"]
+[connection signal="item_clicked" from="Main/ItemList" to="." method="_on_item_list_item_clicked"]

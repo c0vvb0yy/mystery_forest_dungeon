@@ -11,7 +11,10 @@ var four_directions = {
 	'Down': KEY_S,
 	'Left': KEY_A,
 	'Right': KEY_D,
-	'Attack': KEY_F
+	'Attack': KEY_SPACE,
+	'UseItem': KEY_Q,
+	'Pause': KEY_CTRL,
+	'Diagonal': KEY_E
 }
 
 var eight_directions = {
@@ -23,7 +26,9 @@ var eight_directions = {
 	'LeftDown': KEY_Y,
 	'Down': KEY_X,
 	'RightDown': KEY_C,
-	'Attack': KEY_S
+	'Attack': KEY_S,
+	'UseItem': KEY_1,
+	'Pause': KEY_SPACE
 }
 
 func _ready():

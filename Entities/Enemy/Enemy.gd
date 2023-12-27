@@ -20,7 +20,7 @@ func _ready():
 	pass # Replace with function body.
 
 func spawn():
-	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room)
+	var spawn_location = MapData.get_random_coord_of_type(MapData.CellType.room, true)
 	position = MapData.tile_map.map_to_local(spawn_location)
 	current_coords = spawn_location
 	get_new_destination()
@@ -108,7 +108,7 @@ func move(target_coords:Vector2i):
 		tween.finished.connect(_on_moving_tween_finished.bind(target_coords))
 		tween.tween_property(self, "position", MapData.tile_map.map_to_local(target_coords), 1.0/PlayerManager.speed)#.set_trans(Tween.TRANS_SINE)
 
-func _on_moving_tween_finished(target_coords:Vector2i):
+func _on_moving_tween_finished(_target_coords:Vector2i):
 	is_moving = false
 	path_index += 1
 	#direction = Vector2i.ZERO
@@ -128,7 +128,7 @@ func target_cell_is_free(target_coords:Vector2i) -> bool:
 	return true
 
 func update_cells(target_coords:Vector2i):
-	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
+	MapData.free_up_cell(current_coords)
 	MapData.map[target_coords].set_content(self, 2)
 	current_coords = target_coords
 
@@ -146,5 +146,5 @@ func die():
 	tween.tween_property(self, "modulate:a", 1, 0.1).set_delay(0.5)
 
 func delete():
-	MapData.map[current_coords].set_content(null, MapData.CellContent.free)
+	MapData.free_up_cell(current_coords)
 	queue_free()

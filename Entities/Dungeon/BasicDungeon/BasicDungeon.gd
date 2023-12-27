@@ -19,6 +19,7 @@ func _ready() -> void:
 	generate()
 	setup_map_cam()
 	EnemyManager.init()
+	ItemManager.init()
 	MapData.emit_signal("level_start")
 
 func setup_map_cam() -> void:

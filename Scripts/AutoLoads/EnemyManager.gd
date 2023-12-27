@@ -1,7 +1,7 @@
 extends Node
 
-@export var possible_enemies := [preload("res://Entities/Enemy/Bug.tscn"),
-								preload("res://Entities/Enemy/hands.tscn")]
+var possible_enemies := [preload("res://Entities/Enemy/Bug.tscn"),
+						preload("res://Entities/Enemy/hands.tscn")]
 #: Array[PackedScene]
 
 var enemy_queue := []

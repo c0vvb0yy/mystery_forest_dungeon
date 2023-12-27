@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctww2ygjbpd0g"]
+
+[ext_resource type="PackedScene" uid="uid://uqx8c68unn7v" path="res://Entities/Items/item.tscn" id="1_y8kul"]
+[ext_resource type="Texture2D" uid="uid://bwk58uhf42vcl" path="res://Art/Singles/items/grass.png" id="2_f4xkh"]
+[ext_resource type="Script" path="res://Entities/Items/GrassEffect.gd" id="3_1nagq"]
+
+[node name="Grass" instance=ExtResource("1_y8kul")]
+item_name = "Grass"
+
+[node name="Sprite2D" parent="." index="0"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_f4xkh")
+
+[node name="Effect" parent="." index="1"]
+script = ExtResource("3_1nagq")

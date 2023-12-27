@@ -5,9 +5,9 @@ var player = $"/root/BasicDungeon/Player"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	MapData.connect("turn", update)
+	#MapData.connect("turn", update)
 	MapData.connect("level_start", update)
-	#player.connect("player_turn", update_target)
+	player.connect("player_turn", update_target)
 	pass # Replace with function body.
 
 func update():

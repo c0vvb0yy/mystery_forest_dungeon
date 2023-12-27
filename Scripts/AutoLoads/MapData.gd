@@ -1,6 +1,6 @@
 extends Node
 
-signal turn
+signal turn #gets emitted when players did their turn
 signal level_start
 
 ## Denotes if the cell is part of a room or a corridor
@@ -96,9 +96,17 @@ func get_random_coord() -> Vector2i:
 	
 ##returns a random coordinate of a certain cell type
 ##Maybe see into throwing an exception if 'type' is not in the CellType enum
-func get_random_coord_of_type(type:CellType) -> Vector2i:
+func get_random_coord_of_type(type:CellType, need_be_free=false) -> Vector2i:
 	var room = get_all_coordinates_of_type(type)
-	return room[randi() % room.size()]
+	if !need_be_free:
+		return room[randi() % room.size()]
+	else:
+		var coord = room[randi()%room.size()]
+		if map[coord].get_content() == CellContent.free:
+			return coord
+		else:
+			return get_random_coord_of_type(type, need_be_free)
+		
 
 ##returns a random coordinate that is not on the border of a room
 func get_coord_inside_room() -> Vector2i:
@@ -162,3 +170,6 @@ func get_surrounding_cells_in_range(main_coord: Vector2i, range: int) -> Array[C
 	for cell in neighbours:
 		surrounding_cells.append(map.get(cell))
 	return surrounding_cells
+
+func free_up_cell(coords:Vector2i):
+	MapData.map[coords].set_content(null, MapData.CellContent.free)
